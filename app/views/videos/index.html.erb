@@ -1,0 +1,6 @@
+<%@categories.each do |category| %>
+		<h1><%=category.title %></br></h1>
+		<%category.videos.each do |video| %>
+			<%=image_tag video.small_cvr_url %>
+		<% end %>
+<% end %>

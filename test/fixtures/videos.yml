@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  small_cvr_url: 
+  lrg_cvr_url: 
+  description: MyText
+  category: 
+
+two:
+  name: MyString
+  small_cvr_url: 
+  lrg_cvr_url: 
+  description: MyText
+  category: 
