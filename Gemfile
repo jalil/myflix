@@ -19,5 +19,8 @@ end
 group :production do
 #  gem 'pg'
 end
-
+group :test, :development do
+  gem "rspec-rails", "~>2.0"
+  gem 'shoulda-matchers'
+end
 gem 'jquery-rails'
