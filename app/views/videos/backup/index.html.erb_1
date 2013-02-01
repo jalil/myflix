@@ -1,0 +1,5 @@
+<%@categories.each do |c|%>
+        <%= c.categ%>
+<% end %>
+
+

@@ -12,6 +12,7 @@ group :assets do
 end
 
 group :development do
+  gem "better_errors"
   gem 'sqlite3'
   gem 'pry'
   gem 'pry-nav'

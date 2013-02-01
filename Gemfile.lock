@@ -31,6 +31,9 @@ GEM
     annotate (2.5.0)
       rake
     arel (3.0.2)
+    better_errors (0.3.2)
+      coderay (>= 1.0.0)
+      erubis (>= 2.7.0)
     bootstrap-sass (2.2.2.0)
       sass (~> 3.2)
     bourne (1.1.2)
@@ -144,6 +147,7 @@ PLATFORMS
 
 DEPENDENCIES
   annotate (>= 2.5.0)
+  better_errors
   bootstrap-sass
   coffee-rails (~> 3.2.1)
   haml-rails

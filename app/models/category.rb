@@ -12,7 +12,7 @@ class Category < ActiveRecord::Base
   attr_accessible :title
   has_many :videos
 
-	def self.recent_videos
-		Video.limit(2).order("created_at  DESC")
+	def recent_videos
+		Video.order("created_at  DESC").limit(3)
 	end
 end
