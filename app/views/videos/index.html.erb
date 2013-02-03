@@ -1,8 +1,8 @@
 <%@categories.each do |category| %>
- <h1> <%=link_to category.title %> </h1>
-	<%category.videos.reverse.each do |video| %>
-           <%=image_tag video.small_cvr_url %>
- <% end %>
+      <h1> <%=link_to category.title %> </h1>
+	        <%category.videos.each do |video| %>
+          <%=image_tag video.small_cvr_url %>
+    <% end %>
  <% end %>
 
 

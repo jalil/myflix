@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.11'
 gem 'haml-rails'
 gem 'bootstrap-sass'
+gem "binding_of_caller"
 
 gem 'annotate', ">=2.5.0"
 group :assets do
@@ -13,6 +14,7 @@ end
 
 group :development do
   gem "better_errors"
+  gem 'bcrypt-ruby'
   gem 'sqlite3'
   gem 'pry'
   gem 'pry-nav'
@@ -22,7 +24,10 @@ group :production do
 #  gem 'pg'
 end
 group :test, :development do
-  gem "rspec-rails", "~>2.0"
+  gem "rspec-rails", "~> 2.0"
+  gem "factory_girl_rails", "~> 3.2.0"
+  
+  gem 'bcrypt-ruby'
   gem 'shoulda-matchers'
 end
 gem 'jquery-rails'

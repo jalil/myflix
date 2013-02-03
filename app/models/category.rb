@@ -13,6 +13,6 @@ class Category < ActiveRecord::Base
   has_many :videos
 
 	def recent_videos
-		Video.order("created_at  DESC").limit(3)
+		video.order("created_at  DESC").limit(3)
 	end
 end

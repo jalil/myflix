@@ -18,10 +18,11 @@ class Video < ActiveRecord::Base
   validates :name, :small_cvr_url, :lrg_cvr_url, :description,  :presence =>true
 
   def self.search_by_title(search_term)
-	if search_term
-	   find(:all, :conditions =>['name LIKE ?', "%#{search_term}%"])
+	if search_term.blank?
+		[]
 	else
-	     flash=" nope"
+	   where("name LIKE ?", "#{search_term}%")
+	   #where(:"name LIKE ?", "%#{search_term}%"]) matches video with char(A) in name title
         end
   end
 end
