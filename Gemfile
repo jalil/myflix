@@ -4,6 +4,7 @@ gem 'rails', '3.2.11'
 gem 'haml-rails'
 gem 'bootstrap-sass'
 gem "binding_of_caller"
+gem 'bootstrap_form'
 
 gem 'annotate', ">=2.5.0"
 group :assets do

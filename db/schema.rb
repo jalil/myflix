@@ -20,7 +20,8 @@ ActiveRecord::Schema.define(:version => 20130203062403) do
   end
 
   create_table "users", :force => true do |t|
-    t.string   "username"
+    t.string   "email"
+    t.string   "full_name"
     t.string   "password_digest"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false

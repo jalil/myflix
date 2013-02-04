@@ -1,7 +1,7 @@
 class VideosController < ApplicationController
    before_filter :require_user
   def index
-	    @categories = Category.limit(6)
+	    @categories = Category.all
   end
 
 

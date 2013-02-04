@@ -38,6 +38,7 @@ GEM
     binding_of_caller (0.6.8)
     bootstrap-sass (2.2.2.0)
       sass (~> 3.2)
+    bootstrap_form (0.3.0)
     bourne (1.1.2)
       mocha (= 0.10.5)
     builder (3.0.4)
@@ -158,6 +159,7 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   bootstrap-sass
+  bootstrap_form
   coffee-rails (~> 3.2.1)
   factory_girl_rails (~> 3.2.0)
   haml-rails
