@@ -1,18 +1,16 @@
 # == Schema Information
 #
-# Table name: categories
+# Table name: lines
 #
 #  id         :integer          not null, primary key
-#  title      :string(255)
+#  user_id    :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  video_id   :integer
 #
 
-class Category < ActiveRecord::Base
-  attr_accessible :title
+class Line < ActiveRecord::Base
+  attr_accessible :video_id, :user_id
   has_many :videos
-
-	def recent_videos
-		video.order("created_at  DESC").limit(2)
-	end
+  belongs_to :user
 end

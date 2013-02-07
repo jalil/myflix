@@ -9,7 +9,6 @@
     = javascript_include_tag "application"
   %body
     %header
-    -if logged_in?
       = render 'shared/header'
     %section.content.clearfix
       = render 'shared/messages'

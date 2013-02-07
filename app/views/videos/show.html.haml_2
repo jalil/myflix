@@ -1,0 +1,8 @@
+%article.video
+  .container
+    .row
+      .video_large_cover.span7.offset1
+        =image_tag("monk_large.jpg")
+      .video_info.span3
+        %h3= @video.name
+        %p=  @video.description

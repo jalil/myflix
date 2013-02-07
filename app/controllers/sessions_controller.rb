@@ -6,8 +6,8 @@ class SessionsController < ApplicationController
 	def create
 		user =  User.find_by_email(params[:email])
 		if user && user.authenticate(params[:password])
-			session[:user] = user
-			redirect_to  videos_path
+		session[:user_id] = user.id
+			redirect_to  videos_path, notice: "logged in"
 		else
 			flash[:error] = "Could not log you in"
 			render 'new'
@@ -16,8 +16,8 @@ class SessionsController < ApplicationController
 	end
 		
 		def destroy
-			session[:user] = nil
-			redirect_to root_path, notice: "logged out"
+			session[:user_id] = nil
+			redirect_to root_path notice: "Logged out"
 		end
 
 end

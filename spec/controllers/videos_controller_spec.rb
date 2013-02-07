@@ -1,31 +1,38 @@
 require 'spec_helper'
 
 describe VideosController do
-  describe "GET #index" do
-    it "sets the @categories variable" do
-      title = Category.create(title: "monk")
+    describe 'Get #show' do
+      its "assign the requested video to @video" do
+        video = Video.create(name:"Monk", description: "Krazy Police",
+                             small_cvr_url:"small.jpg", lrg_cvr_url: "large.jpg")
+        bob = User.create(full_name: "bob hope", password: "bob", email:"bob@bob.com")
+        session[:user_id] = bob.id
+        get :show, id: video.id
+        assigns(:video).should == video
+      end
 
-      get :index
-      assigns(:categories).should == [title]
+      it 'renders the :show template' do
+        video = Video.create(name:"Monk", description: "Krazy Police",
+                             small_cvr_url:"small.jpg", lrg_cvr_url: "large.jpg")
+        bob = User.create(full_name: "bob hope", password: "bob", email:"bob@bob.com")
+        session[:user_id] = bob.id
+        get :show, id: video.id
+        response.should render_template :show
+      end
     end
 
-    it "renders the :index template" do
-      get :index
-      response.should render_template :index
+  describe "POST #search " do
+    it "should set @videos" do
+        video = Video.create(name:"monk office", description: "Krazy Police",
+                             small_cvr_url:"small.jpg", lrg_cvr_url: "large.jpg")
+        bob = User.create(full_name: "bob hope", password: "bob", email:"bob@bob.com")
+        session[:user_id] = bob.id
+        post :search, search_term: 'monk'
+        assigns(:videos).should ==[video]
     end
-  end
-
-  describe "Get #show" do
-    it "assigns the requested video to @video" do
-      video = Video.create(params[:video])
-      get :show, id: video
-      assigns(:video).should eq video
-    end
-
-    it "renders the :show template" do
-      video = Video.create(:video)
-      get :show, id:video
-      response.should render_template :show
+    it "should render search template" do
+        post :search
+        response.should render_template :search
     end
   end
 end
