@@ -12,12 +12,25 @@ describe UsersController do
      response.should render_template :new
    end
   end
+
+  describe "Post create" do
+    it "create user wit proper inputs" do
+      post :create,
+    user = User.create(email: "abc@abc.com",full_name: "bob abc", password: "sesame')
+    User.first.full_name == "bob abc"
+
+    it "invalid  user"
+    it "redirect to sign in path"
+
+  end
   
-  describe  "GET show" do
-    it "should show  @user" do
-      user = User.create(email: "abc@abc.com", full_name: "abc bob", password: "bob")
-      get :show id: user.id
-      assigns(:user).should == user
+  describe  "GET search" do
+    it "should return @user variable " do
+      get :search, id: search_term
+      user = 
+    end
+    it "redirect to root path" do
+      response.should redirect_to  root_path
     end
   end
 end

@@ -2,36 +2,36 @@
   .container
     .row
       .video_large_cover.span7.offset1
-        =image_tag("monk_large.jpg")
+        = image_tag("monk_large.jpg")
       .video_info.span3
         %h3= @video.name
+        %span
+        %h4 Average Ratings: #{@average_rating}
         %p= @video.description
         .actions
-          %a.btn.btn-primary(href="") Watch Now
-          %a.btn(href="") + My Queue
+          =link_to " + My Queue", line_items_path(video_id: @video.id), method: :create, class: 'btn' 
 
 %section.reviews.container
   .row
     .span10.offset1
-      =form_for [@video,  @review]  do |f|
+      = bootstrap_form_for([@video, @review], html: {class: 'form-vertical'}) do |f|
         %fieldset
           %label Rate this video
-          %label Write Review
-          =f.select("rating", %w[ 5 4 3 2 1])
-          =f.label :comment
-          =f.text_area :comment, :size => "100"
+          =f.select :rating, options_for_select([['5 Stars',5],['4 Stars', 4],['3 Stars', 3],['2 Stars', 2],['1 Stars', 1]])
         %fieldset.actions.clearfix
-          %input(type="submit" value="Submit" class="btn")
+          =f.alert_message "Please fix errors below"
+          =f.text_area :comment, class: 'span6', :size => "1x3"
+        %fieldset.actions.clearfix
+          =f.secondary ("Submit Review")
           %a(href="") Cancel
       %header
         %h3 User Reviews (#{@video.reviews.count})
       %ul
-        - 8.times do
+        -@video.reviews.each do |review|
           %article.review
-          - @video.reviews.each do |review|
             %li.row
               .span2
-                %span Rating: #{review.rating} / 5
-                %p by <a href="">#{review.user.full_name}</a>
+                %span Rating:  #{review.rating}/ 5
+                %p by <a href="">Jalil</a>
               .span8
-                %p #{review.comment}
+                %p #{review.comment}</a>

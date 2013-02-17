@@ -13,19 +13,23 @@
 #
 
 class Video < ActiveRecord::Base
+
+  #associations
   belongs_to :category
   belongs_to :user
-  has_many :reviews
+  has_many :line_items, :order => "position ASC"
+  has_many :reviews, :order=> "created_at DESC"
 
   attr_accessible :category_id, :description, :lrg_cvr_url, :name, :small_cvr_url
+
+  #validations
   validates :name, :small_cvr_url, :lrg_cvr_url, :description,  :presence =>true
 
   def self.search_by_title(search_term)
-	if search_term.blank?
-		[]
-	else
-	   where("name LIKE ?", "#{search_term}%")
-	   #where(:"name LIKE ?", "%#{search_term}%"]) matches video with char(A) in name title
-        end
+	  if search_term.blank?
+	         []
+	  else
+	    where("name LIKE ?", "#{search_term}%")
+    end
   end
 end

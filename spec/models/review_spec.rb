@@ -14,5 +14,13 @@
 require 'spec_helper'
 
 describe Review do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe " association between models" do
+    it { should belong_to(:user) }
+    it { should belong_to(:video) }
+  end
+
+  describe "validations of models" do
+    it { should validate_presence_of(:rating) }
+    it { should validate_presence_of(:comment) }
+  end
 end

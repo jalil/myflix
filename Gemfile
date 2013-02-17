@@ -5,6 +5,7 @@ gem 'haml-rails'
 gem 'bootstrap-sass'
 gem "binding_of_caller"
 gem 'bootstrap_form'
+gem 'fabrication'
 
 gem 'annotate', ">=2.5.0"
 group :assets do
@@ -26,8 +27,7 @@ group :production do
 end
 group :test, :development do
   gem "rspec-rails", "~> 2.0"
-  gem "factory_girl_rails", "~> 3.2.0"
-  
+  gem "faker"
   gem 'bcrypt-ruby'
   gem 'shoulda-matchers'
 end

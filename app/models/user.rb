@@ -12,10 +12,15 @@
 
 class User < ActiveRecord::Base
   has_many :reviews, :dependent => :destroy
-  has_many :videos, :through  => :lines
+  has_many :videos
+  has_many :line_items, order: "position ASC"
 
   attr_accessible :password_digest, :email, :full_name, :password, :password_confirmation
   validates :email, :full_name,  :presence =>true
   validates_uniqueness_of :email
   has_secure_password
+
+  def has_a_video_in_queue?(video)
+    queue_items.map(&:video).include?(video)
+  end
 end

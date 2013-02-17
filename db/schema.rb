@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130207032640) do
+ActiveRecord::Schema.define(:version => 20130213035229) do
 
   create_table "categories", :force => true do |t|
     t.string   "title"
@@ -19,20 +19,31 @@ ActiveRecord::Schema.define(:version => 20130207032640) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "lines", :force => true do |t|
+  create_table "line_items", :force => true do |t|
+    t.integer  "video_id"
     t.integer  "user_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-    t.integer  "video_id"
+    t.integer  "position"
   end
 
-  add_index "lines", ["user_id"], :name => "index_lines_on_user_id"
+  create_table "parties", :force => true do |t|
+    t.string   "index"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "reviews", :force => true do |t|
     t.integer  "rating"
     t.text     "comment"
     t.integer  "video_id"
     t.integer  "user_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "todos", :force => true do |t|
+    t.string   "Party"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end

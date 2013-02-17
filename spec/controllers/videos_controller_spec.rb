@@ -31,7 +31,7 @@ describe VideosController do
         assigns(:videos).should ==[video]
     end
     it "should render search template" do
-        post :search
+        post :search, search_term: 'monk'
         response.should render_template :search
     end
   end

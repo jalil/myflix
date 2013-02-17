@@ -1,4 +1,10 @@
-%h1 Videos#index
+%article.video-category
+  %header
+    - @categories.each do |category|
+      %h2= category.title
+      .videos.row
+        - category.recent_videos.each do |video|
+          .video.span2
+            =link_to (image_tag video.small_cvr_url), video
 
 
-Jalil%p Find me in app/views/videos/index.html.haml

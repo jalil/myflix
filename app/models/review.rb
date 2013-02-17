@@ -13,6 +13,10 @@
 
 class Review < ActiveRecord::Base
   attr_accessible :comment, :rating, :video_id, :user_id
+  #validations
+  validates  :rating ,presence: true
+  validates  :comment ,presence: true
+  #associations
   belongs_to :video
   belongs_to :user
 end

@@ -15,41 +15,27 @@
 require "spec_helper"
 
 describe Video do
-    
+  describe "associations for Video"  do    
     it { should belong_to(:category) }
+  end
+
+  describe " Validate Video" do
     it { should validate_presence_of(:name)}
     it { should validate_presence_of(:description)}
+  end
 
-     it "has a valid factory" do
-	FactoryGirl.create(:video).should be_valid
-     end
-     
-      it "it is invalid without a video name" do
-	FactoryGirl.build(:video, name: nil).should_not be_valid
-      end
-     
-      it "it is invalid without a video description" do
-	FactoryGirl.build(:video, description: nil).should_not be_valid
-      end
-      #it "is invalid with duplicate video name" do 
-#	FactoryGirl.create(:video, name:"Monk")
-#	FactoryGirl.build(:video, name:"Monk").should_not be_valid
- #      end
-      it "returns result of matched search results only" do
-        monk = FactoryGirl.create(:video, name: "Monk")
-        man = FactoryGirl.create(:video, name: "Man")
-        funnyman = FactoryGirl.create(:video, name: "Funnyman")
+  context  "search results for video" do
+    before :each  do
+      @video_1 =  Fabricate(:video, name: "curb your mom")
+      @video_2 =  Fabricate(:video, name: "curb your daddy")
+    end
 
-        Video.search_by_title("M").should eq [monk, man]
-      end
+    it  "should return an empty array if search title result is not there" do
+      Video.search_by_title("seinfeld").should == []
+    end
 
-      it "returns result of matched search results only" do
-         monk = FactoryGirl.create(:video, name: "Monk")
-         man = FactoryGirl.create(:video, name: "Man")
-         funnyman = FactoryGirl.create(:video, name: "Funnyman")
-
-         Video.search_by_title("M").should_not  include funnyman
-
-      end
+    it "should return result if its in search" do
+      Video.search_by_title("curb").should include(@video_1, @video_2)
+    end
+   end
 end
-

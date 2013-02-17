@@ -1,23 +1,13 @@
 class ReviewsController < ApplicationController
-
-  def index
-    @reviews = Review.all
-  end
-
-  def new
-    @video = Video.find(params[:video_id])
-    @review = Review.new
-  end
-
+  before_filter :require_user, only: [:create]
   def create
-     @video =Video.find(params[:video_id])
-     @review = @video.reviews.create(params[:comment])
-     @review.user = current_user
-      if @review.save
-        flash[:notice] = "Review was saved"
-        redirect_to video_path(@video)
-      else
-        render 'video/show'
+     video = Video.find(params[:video_id])
+     review = video.reviews.build(params[:review])
+     review.user_id = current_user.id
+     if review.save
+       redirect_to video
+     else
+      render 'videos/show'
       end
   end
 end
