@@ -16,7 +16,4 @@ class LineItem < ActiveRecord::Base
   belongs_to :video
   belongs_to :user
 
-  def update_line_item
-
-  end
 end

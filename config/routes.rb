@@ -9,7 +9,7 @@ Myflix::Application.routes.draw do
   get "videos/index"
   get 'home',  :to=> "videos#index"
   get 'my_queue',  :to=> "line_items#index"
-  post "update_line",  :to=> "line_items#update_line"
+  post 'update_line',  to:  "line_items#update_line"
 
   get 'ui(/:action)', controller: 'ui'
   #root page

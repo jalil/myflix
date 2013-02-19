@@ -4,6 +4,7 @@
       %article
         %header
           %h2 My Queue
+      = form_tag update_lines_path  do
         %table.table
           %thead
             %tr
@@ -17,22 +18,17 @@
           -@line_items.each do |list|
             %tr
               %td
-                %input(type="text" value="1")
+                = text_field_tag "line_items[#{list.id}][position]", list.position
               %td
-                = link_to list.video.name
+                = link_to list.video.name, list.video
               %td
                 = button_to "Play", nil, class: "btn"
               %td
-                %select(name="")
-                  %option(value="5") 5 Stars
-                  %option(value="4") 4 Stars
-                  %option(value="3") 3 Stars
-                  %option(value="2") 2 Stars
-                  %option(value="1") 1 Star
+                = 3
               %td
                 = link_to list.video.category.title
               %td
                 = link_to list, method: :delete, :confirm => " Are you Sure"  do
                   %i.icon-remove
             %tr
-        = button_to "Update Instant Queue", method: :update, class: "btn"
+        = button_to "Update Instant Queue",nil,  class: "btn"
