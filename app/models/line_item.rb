@@ -16,4 +16,15 @@ class LineItem < ActiveRecord::Base
   belongs_to :video
   belongs_to :user
 
+  def self.update_queue(queue_items_array,user)
+    queue_items_array.sort!{|a,b| a[1]['position']<=>b[1]['position']}
+    queue_items_array.each_with_index do |item_key, index|
+      item = user.queue_items.find(item_key[0])
+      if item
+        item.position = index +1
+        item.rating = item_key[1]['rating']
+        item.save
+      end
+    end
+  end
 end

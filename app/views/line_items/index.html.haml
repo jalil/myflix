@@ -4,7 +4,10 @@
       %article
         %header
           %h2 My Queue
-      = form_tag update_line_path  do
+      - if @line_items.empty? 
+        %i No videos in your Queue
+      - else
+      = form_tag update_line_path, method: :post  do
         %table.table
           %thead
             %tr
@@ -18,7 +21,7 @@
           -@line_items.each do |list|
             %tr
               %td
-                = text_field_tag "line_items[#{list.id}][position]",list.position
+                = text_field_tag "line_items[#{list.id}][position]", list.position
               %td
                 = link_to list.video.name, list.video
               %td
@@ -31,4 +34,4 @@
                 = link_to list, method: :delete, :confirm => " Are you Sure"  do
                   %i.icon-remove
             %tr
-        = button_to "Update Instant Queue", :update_line,  class: "btn"
+        = button_to "Update Instant Queue",update_line_path, class: "btn"
