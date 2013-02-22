@@ -27,4 +27,18 @@ class LineItem < ActiveRecord::Base
       end
     end
   end
+
+  def rating
+    review = video.reviews.where(user_id: user.id).first
+    if review
+      review.rating
+    else
+      5
+    end
+  end
+
+  def rating=(rating_value)
+    review= video.reviews.where(user_id: user.id).first_or_create
+    review.rating_value
+  end
 end

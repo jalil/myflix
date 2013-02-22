@@ -70,16 +70,15 @@ describe  LineItemsController  do
   end
   end
 
-describe "POST update_line_items" do
-    let(:bob) { Fabricate(:user) }
-    item1 =  Fabricate(:line_item, user:bob, position: 1)
-    item2 =  Fabricate(:line_item, user:bob, position: 2)
-    item3 =  Fabricate(:line_item, user:bob, position: 3)
+describe "POST update_line" do
+      bob = Fabricate(:user)
+    item1 =  Fabricate(:line_item, user: bob, position: 1)
+    item2 =  Fabricate(:line_item, user: bob, position: 2)
    before do
      session[:user_id] = bob.id
    end 
   it "position number"  do
-    post :update_line_item, line_items: {item1.id=> {position: 2},
+    post :update_line, line_items: {item1.id=> {position: 2},
                                          item2.id => {position: 1 }}
     bob.line_items.reload.should == [item2, item1]
     bob.line_items.reload.map(&:position).should == [1, 2]
