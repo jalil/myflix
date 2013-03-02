@@ -1,86 +1,92 @@
 require 'spec_helper'
 
-describe  LineItemsController  do
+describe LineItemsController do
 
-  describe "GET 'index'" do
-    context "autheticated user" do
-      let(:user)  {Fabricate(:user)}
-      it "renders the 'index' action" do
-        session[:user_id] = user.id
-        get :index
-        response.should render_template :index
-      end
+    let(:bob) { Fabricate(:user)}
+    before { set_current_user(bob) }
 
-      it "assigns the line_item item" do
+  describe 'GET #index' do
+      it 'assigns @queue_items' do
         item1 =  Fabricate(:line_item)
         item2 =  Fabricate(:line_item)
-        bobby =  user
-        session[:user_id] = bobby.id
-        bobby.line_items << item1
-        bobby.line_items << item2
+        bob.line_items << item1
+        bob.line_items << item2
         get :index
-        assigns(:line_items).should == [item1, item2]
+        bob.line_items.should == [item1, item2 ]
       end
 
-      it "render the 'index' template'" do
-      session[:user_id] = user.id
-      get :index
-      response.should render_template :index
-    end
-    end
-      context "unauthenticated user" do
-        it "should redirect " do
-          get :index
-          response.should be_redirect
+        it_behaves_like "render_template" do
+          let(:action) { get :index }
+          let(:template) {:index}
         end
-      end
-  end
-  describe "GET 'create'" do
-    it "creates a new line_item" do
-      bobby = Fabricate(:user)
-      session[:user_id] = bobby.id
+
+        it_behaves_like "require_sign_in" do
+          let(:action) { get :index}
+        end
+        end
+
+  describe "POST create" do 
+    it "create a queue item" do
       video = Fabricate(:video)
       post :create, video_id: video.id
-      bobby.line_items.map(&:video).should == [video]
+      bob.line_items.map(&:video).should == [video]
     end
-    it "redirects to my_queue_path" do
-      bobby = Fabricate(:user)
-      session[:user_id] = bobby.id
+
+    it "redirects to my queue page" do
       video = Fabricate(:video)
       post :create, video_id: video.id
-      response.should redirect_to my_queue_path 
-    end
-  end
-  describe "GET 'destroy' " do
-    it "should delete and line_item" do
-      bobby = Fabricate(:user)
-      video = Fabricate(:video)
-      session[:user_id] = bobby.id
-      line_item =  Fabricate(:line_item)
-      delete :destroy, id: line_item.id
-      response.should nil
-    end
-    it "should redirect to my_queue_path" do
-      bobby = Fabricate(:user)
-      session[:user_id] = bobby.id
-      line_item =  Fabricate(:line_item)
-      get :destroy, id: line_item.id
       response.should redirect_to my_queue_path
     end
-  end
-  end
 
-describe "POST update_line" do
-      bob = Fabricate(:user)
-    item1 =  Fabricate(:line_item, user: bob, position: 1)
-    item2 =  Fabricate(:line_item, user: bob, position: 2)
-   before do
-     session[:user_id] = bob.id
-   end 
-  it "position number"  do
-    post :update_line, line_items: {item1.id=> {position: 2},
-                                         item2.id => {position: 1 }}
-    bob.line_items.reload.should == [item2, item1]
-    bob.line_items.reload.map(&:position).should == [1, 2]
+    it_behaves_like "require_sign_in" do
+      let(:action) { post :create , video_id: 4}
+    end
+   end
+
+  describe "DELETE destroy" do
+    context "authorized user " do
+      let(:item1) { Fabricate(:line_item, user:bob) }
+      let(:item2) { Fabricate(:line_item, user:bob) }
+
+      before { delete :destroy, id: item1.id }
+
+      it "delete users queue items" do
+        bob.line_items.should == [item2]
+      end
+
+      its "redirect_to my queue page" do
+        response.should redirect_to my_queue_path
+      end
+    end
+
+    context "unauthorized user" do 
+      it "does not delete the items" do 
+        item = Fabricate(:line_item)
+        delete :destroy,  id: item.id
+        LineItem.count.should == 1
+      end
+
+      it_behaves_like "require_sign_in" do
+        let(:action) { delete :destroy, id:3}
+      end
+    end
+
+    context "unauthorized delete" do 
+      let(:bob) { Fabricate(:user)}
+
+      before do
+        item = Fabricate(:line_item,  user: bob)
+        delete :destroy, id: item.id
+      end
+
+      it "does not delete item in queue item" do
+        LineItem.count.should == 1
+      end
+
+      it "redirects to my queue page " do
+        response.should redirect_to my_queue_path
+      end
+    end
   end
 end
+

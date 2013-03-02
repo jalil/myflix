@@ -6,8 +6,8 @@ gem 'bootstrap-sass'
 gem "binding_of_caller"
 gem 'bootstrap_form'
 gem 'fabrication'
-
 gem 'annotate', ">=2.5.0"
+
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
@@ -20,10 +20,11 @@ group :development do
   gem 'sqlite3'
   gem 'pry'
   gem 'pry-nav'
+  gem 'capybara'
 end
 
 group :production do
-#  gem 'pg'
+  #  gem 'pg'
 end
 group :test, :development do
   gem "rspec-rails", "~> 2.0"

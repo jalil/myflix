@@ -8,24 +8,29 @@
 
 
 Category.destroy_all
+Friendship.destroy_all
+LineItem.destroy_all
+Video.destroy_all
+Review.destroy_all
+User.destroy_all
 
 categories = ['comedy', 'drama', 'suspence', 'family', 'sci-fi']
 categories.each do |category| 
 	Category.create(title:category)
 end
 
-User.destroy_all
 User.create(email: "bob@example.com", full_name: "Bob Hope", password: "bob")
 User.create(email: "sam@example.com", full_name: "Sammy Hill", password: "sam")
+User.create(email: "adam@example.com", full_name: "Adam Jones", password: "adam")
+User.create(email: "dick@example.com", full_name: "Dick Hope", password: "dick")
 User.create(email: "jalil@example.com", full_name: "Jalil Mohammed", password: "jalil")
 User.create(email: "may@example.com", full_name: "May Kosaka", password: "may")
 
-Video.destroy_all
 Video.create(name:"Monk",
 	    description:"Former police detective Adrian Monk (Tony Shalhoub), whose photographic memory and amazing ability to piece together tiny clues made him a local legend, has suffered from intensified obsessive-compulsive disorder and a variety of phobias since the unsolved murder of his wife.",
 		small_cvr_url:"monk.jpg",
 		lrg_cvr_url: "monk_large.jpg",
-		category_id: 2 )	
+		category_id: 1 )	
 
 
 Video.create(name:"Family Guy",
@@ -93,9 +98,16 @@ Video.create(name:"Thing Red Line",
 	    lrg_cvr_url: "redline.jpg",
 		category_id: 2 )
 
-Review.destroy_all
-Review.create(rating: 2, comment: "An achingly slow movie about a couple that are not very likeable. They spend months together, apart, together, etc. Not funny, not interesting, and not witty." , video_id: 2, user_id: 1)
+Review.create(rating: 4, comment: "An achingly slow that are not very likeable. not witty." , video_id: 2, user_id: 1)
+Review.create(rating: 2, comment: "Not funny, not interesting, and not witty." , video_id: 2, user_id: 2)
+Review.create(rating: 5, comment: "dcouple that are interesting, and not witty." , video_id: 2, user_id: 1)
+
 
 LineItem.create(video_id: 1, user_id: 1, position: 3)
 LineItem.create(video_id: 2, user_id: 1, position: 2)
-LineItem.create(video_id: 4, user_id: 1, position: 1)
+LineItem.create(video_id: 4, user_id: 2, position: 1)
+
+Friendship.create(user_id:1, friend_id:2)
+Friendship.create(user_id:1, friend_id:3)
+Friendship.create(user_id:1, friend_id:4)
+Friendship.create(user_id:1, friend_id:5)

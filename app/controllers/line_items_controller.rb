@@ -7,7 +7,7 @@ class LineItemsController < ApplicationController
 
   def create
     video = Video.find(params[:video_id])
-   current_user.line_items.where(video_id: video.id,  position: current_user.line_items.count + 1).first_or_create if video
+    current_user.line_items.where(video_id: video.id,  position: current_user.line_items.count + 1).first_or_create if video
     redirect_to my_queue_path, notice: "Video Added To Your Queue"
   end
 
@@ -18,8 +18,7 @@ class LineItemsController < ApplicationController
   end
 
   def update_line
-    line_items_array = params[:line_items].to_a
-    LineItem.update_queue(line_items_array, current_user)
-    redirect_to my_queue_path
-      end
-  end
+   LineItem.update_queue(params[:line_items])
+   redirect_to my_queue_path
+   end
+end

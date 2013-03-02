@@ -15,5 +15,10 @@
 
 		def show
 			@user = User.find(params[:id])
+      @reviews = @user.reviews
+      @line_items = @user.line_items
 		end
+
+    def people 
+    end
 end

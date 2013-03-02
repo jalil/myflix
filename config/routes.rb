@@ -1,5 +1,4 @@
 Myflix::Application.routes.draw do
-  resources :todos
 
   get 'register', :to =>"users#new"
   get 'login', :to =>"sessions#new"
@@ -9,7 +8,9 @@ Myflix::Application.routes.draw do
   get "videos/index"
   get 'home',  :to=> "videos#index"
   get 'my_queue',  :to=> "line_items#index"
+  get 'people',  :to=> "friendships#index"
   post 'update_line',  to:  "line_items#update_line"
+
 
   get 'ui(/:action)', controller: 'ui'
   #root page
@@ -19,6 +20,7 @@ Myflix::Application.routes.draw do
   resources :line_items, only: [:create, :destroy]
   resources :reviews, only: [:create]
   resources :users
+  resources :friendships
 
   resources :videos do
     resources :reviews

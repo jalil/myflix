@@ -2,8 +2,7 @@ class ReviewsController < ApplicationController
   before_filter :require_user, only: [:create]
   def create
      video = Video.find(params[:video_id])
-     review = video.reviews.build(params[:review])
-     review.user_id = current_user.id
+     review = video.reviews.build(params[:review].merge!(user_id: current_user.id))
      if review.save
        redirect_to video
      else
