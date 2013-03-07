@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130227145809) do
+ActiveRecord::Schema.define(:version => 20130306022912) do
 
   create_table "categories", :force => true do |t|
     t.string   "title"
@@ -59,8 +59,9 @@ ActiveRecord::Schema.define(:version => 20130227145809) do
     t.string   "email"
     t.string   "full_name"
     t.string   "password_digest"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
+    t.string   "password_reset_token"
   end
 
   create_table "videos", :force => true do |t|
@@ -71,6 +72,7 @@ ActiveRecord::Schema.define(:version => 20130227145809) do
     t.integer  "category_id"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
+    t.string   "token"
   end
 
   add_index "videos", ["category_id"], :name => "index_videos_on_category_id"

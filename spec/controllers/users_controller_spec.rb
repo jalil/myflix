@@ -15,22 +15,15 @@ describe UsersController do
 
   describe "Post create" do
     it "create user wit proper inputs" do
-      post :create,
+    post :create,
     user = User.create(email: "abc@abc.com",full_name: "bob abc", password: "sesame')
-    User.first.full_name == "bob abc"
+    user.first.full_name == "bob abc"
 
     it "invalid  user"
     it "redirect to sign in path"
 
   end
   
-  describe  "GET search" do
-    it "should return @user variable " do
-      get :search, id: search_term
-      user = 
-    end
-    it "redirect to root path" do
-      response.should redirect_to  root_path
     end
   end
 end

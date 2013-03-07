@@ -10,6 +10,7 @@
 #  category_id   :integer
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
+#  token         :string(255)
 #
 
 class Video < ActiveRecord::Base
@@ -22,6 +23,7 @@ class Video < ActiveRecord::Base
 
   attr_accessible :category_id, :description, :lrg_cvr_url, :name, :small_cvr_url
 
+  before_create :generate_token
   #validations
   validates :name, :small_cvr_url, :lrg_cvr_url, :description,  :presence =>true
 
@@ -32,4 +34,14 @@ class Video < ActiveRecord::Base
 	    where("name LIKE ?", "#{search_term}%")
     end
   end
+
+  def to_param
+    token
+  end
+
+  private
+  def generate_token
+    self.token = SecureRandom.urlsafe_base64
+  end
+
 end

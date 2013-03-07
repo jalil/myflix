@@ -21,6 +21,8 @@ Myflix::Application.routes.draw do
   resources :reviews, only: [:create]
   resources :users
   resources :friendships
+  resources :password_resets
+  resources :invitations
 
   resources :videos do
     resources :reviews

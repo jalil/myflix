@@ -7,18 +7,16 @@
 	def create
 		@user = User.new(params[:user])
 		if @user.save
-			redirect_to videos_path
+    AppMailer.welcome_email(@user).deliver
+		redirect_to login_path
 		else
 			render 'new'
 		end
 	end
 
-		def show
-			@user = User.find(params[:id])
-      @reviews = @user.reviews
-      @line_items = @user.line_items
-		end
-
-    def people 
-    end
+	def show
+		@user = User.find(params[:id])
+    @reviews = @user.reviews
+    @line_items = @user.line_items
+	end
 end

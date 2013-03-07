@@ -9,7 +9,8 @@ class VideosController < ApplicationController
   end
 
   def show
-    	@video = Video.find(params[:id])
+    	#@video = Video.find(params[:id])
+    	@video = Video.find_by_token(params[:id])
       @reviews = @video.reviews
       @review = Review.new
       @average_rating = @reviews.average(:rating).to_f.round(1)

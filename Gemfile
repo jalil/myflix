@@ -21,6 +21,7 @@ group :development do
   gem 'pry'
   gem 'pry-nav'
   gem 'capybara'
+  gem 'letter_opener'
 end
 
 group :production do

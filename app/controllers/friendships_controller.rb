@@ -1,5 +1,5 @@
 class FriendshipsController < ApplicationController
-
+before_filter :require_user
   def index
     @friendships = current_user.friends
   end
