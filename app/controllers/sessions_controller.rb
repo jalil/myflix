@@ -10,14 +10,15 @@ class SessionsController < ApplicationController
 			redirect_to  videos_path, notice: "logged in"
 		else
 			flash[:error] = "Could not log you in"
-			render 'new'
+			redirect_to login_url
 
 		end
 	end
 		
 		def destroy
 			session[:user_id] = nil
-			redirect_to login_path notice: "Logged out"
+			flash[:notice]= "Logged out"
+			redirect_to login_path
 		end
 
 end
