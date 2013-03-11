@@ -2,15 +2,14 @@
   .row
     .span10.offset1
       %form.invite
-      =form_for @invitation do |f|
         %header
           %h1 Invite a friend to join MyFlix!
         %fieldset
-          =f.label :recipient_name, "Friend's Name"
-          =f.text_field :recipient_name
-          =f.label :recipient_email,"Friend's Email Address"
-          =f.text_field :recipient_email
+          %label Friend's Name
+          %input(type="text")
+          %label Friend's Email Address
+          %input(type="email")
           %label Invitation Message
-          =f.text_area :message,rows:'6'
+          %textarea.span4(rows=6) Please join this really cool site!
         %fieldset.action
           %input(type="submit" value="Send Invitation" class="btn")

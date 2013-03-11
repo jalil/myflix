@@ -12,24 +12,27 @@
 #
 
 class User < ActiveRecord::Base
+  include Tokenable
   has_many :reviews, :dependent => :destroy
   has_many :videos
   has_many :line_items, order: "position ASC"
+  #following
   has_many :friendships
   has_many :friends, :through => :friendships
   has_many :inverse_friendships, :class_name => "Friendship", :foreign_key => "friend_id"
   has_many :inverse_friends, :through => :inverse_friendships, :source => :user
 
   #invitations
-  belongs_to :invitations
+  belongs_to :invitation
+  has_many :sent_invitation, :class_name => 'Invitation', :foreign_key => 'sender_id'
 
-  attr_accessible :password_digest, :email, :full_name, :password, :password_confirmation
+  attr_accessible :password_digest, :email, :full_name, :password, :password_confirmation,:invitation_token
   validates :email, :full_name, :password,  :presence =>true
   validates_uniqueness_of :email
   has_secure_password
   
   before_create  do
-    generate_token
+    generate_password_token
   end
   
   def has_a_video_in_queue?(video)
@@ -42,10 +45,11 @@ class User < ActiveRecord::Base
     AppMailer.password_reset(self).deliver
   end
 
-  def generate_token
-    begin
-      token = SecureRandom.urlsafe_base64
-    end while User.where(password_reset_token: token).present?
-    self.password_reset_token = token
+  def invitation_token
+    invitation.token if invitation
+  end
+
+  def invitation_token=(token)
+    self.invitation = Invitation.find_by_token(token)
   end
 end

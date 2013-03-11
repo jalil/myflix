@@ -10,4 +10,10 @@ class AppMailer < ActionMailer::Base
     @user = user
     mail(:to => user.email, :subject => "Password reset")
   end
+
+  def invitation(invitation, signup_url)
+    @invitation = invitation
+    mail(:to => invitation.recipient_email,
+         :subject => "Invitation to Myflix")
+  end
 end
