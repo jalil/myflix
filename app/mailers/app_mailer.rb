@@ -16,4 +16,9 @@ class AppMailer < ActionMailer::Base
     mail(:to => invitation.recipient_email,
          :subject => "Invitation to Myflix")
   end
+
+  def profile_update(user)
+    @user = user
+    mail(:to=> user.email, :subject => "Profile updated")
+  end
 end

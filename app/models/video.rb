@@ -27,7 +27,7 @@ class Video < ActiveRecord::Base
   #validations
   validates :name, :small_cvr_url, :lrg_cvr_url, :description,  :presence =>true
 
-  def self.search_by_title(search_term)
+  def self.search(search_term)
 	  if search_term.blank?
 	         []
 	  else
@@ -35,9 +35,9 @@ class Video < ActiveRecord::Base
     end
   end
 
-  def to_param
-    token
-  end
+#  def to_param
+ #   token
+  #end
 
   private
   def generate_token

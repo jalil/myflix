@@ -9,7 +9,8 @@
 #
 
 class Category < ActiveRecord::Base
-  attr_accessible :title
+  attr_accessible :title, :created_at
+  validates :title, presence:true
   has_many :videos
 
 	def recent_videos

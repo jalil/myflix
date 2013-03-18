@@ -9,6 +9,8 @@
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
 #  password_reset_token :string(255)
+#  invitation_id        :integer
+#  invitation_limit     :integer
 #
 
 require 'spec_helper'

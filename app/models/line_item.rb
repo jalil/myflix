@@ -19,6 +19,7 @@ class LineItem < ActiveRecord::Base
   def self.update_queue(queue_items)
     unless queue_items.blank?
       sorted = queue_items.sort_by { |key, value| value['position'] }
+        require pry; binding.pry
       sorted.each_with_index do |item, index|
         video = self.find(item[0].to_i).video
         user = self.find(item[0].to_i).user

@@ -1,0 +1,27 @@
+%section.account.container
+  .row
+    .span10.offset1
+      =form_for @user do |f|
+        %header
+          %h1 Your Account
+        %fieldset
+          .control-group
+            =f.label :email, "Email Address"
+            .controls
+              =f.text_field :email
+          .control-group
+            =f.label :password,  "Password"
+            .controls
+              =f.password_field :password, :value => "password"
+          .control-group
+            =f.label :password_confirmation,  "Confirm Password "
+            .controls
+              =f.password_field :password_confirmation, :value => "password"
+          .control-group
+            %label.control-label Full Name
+            =f.text_field :full_name
+            .controls
+        %fieldset.actions.control-group
+          .controls
+            %input(type="submit" value="Update" class="btn")
+            = link_to "Cancel"

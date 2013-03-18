@@ -22,10 +22,13 @@ group :development do
   gem 'pry-nav'
   gem 'capybara'
   gem 'letter_opener'
+  gem 'rb-fsevent'
+  gem 'guard-rspec'
 end
 
 group :production do
     gem 'pg'
+   # gem 'thin'
 end
 group :test, :development do
   gem "rspec-rails", "~> 2.0"

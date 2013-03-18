@@ -1,4 +1,6 @@
  class UsersController < ApplicationController
+   before_filter :require_user, only: [:show]
+
 	def new
     if params[:invitation_token]
        if User.find_by_invitation_id(Invitation.find_by_token(params[:invitation_token]).id)
@@ -30,4 +32,13 @@
     @reviews = @user.reviews
     @line_items = @user.line_items
 	end
+
+  def update
+		@user = current_user
+    if @user.update_attributes(params[:user])
+      AppMailer.profile_update(@user).deliver
+      flash[:notice] = "Successfully updated profile"
+      redirect_to videos_url
+    end
+  end
 end

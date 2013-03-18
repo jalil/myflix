@@ -21,16 +21,22 @@ describe FriendshipsController do
       get :index
       response.should render_template :index
     end
+
+    it "return http success" do
+      response.should be_success
+    end
   end
 
   describe "POST create" do
    let(:bob) { Fabricate(:user)}
    before { set_current_user(bob)}
-    it "should create new friendships" do
-      eve = Fabricate(:friendship, user_id: bob.id)
-      post :create, friend_id: eve.id
-      bob.friendships.should == [ eve ]
-    end 
-    it "should redirect to friends url"
+   let(:eve) { Fabricate(:user)}
+    it "should create new friends" do
+      pending
+    end
+    it "should redirect to friends url" do
+      post :create,  friend_id: bob.id
+        response.should redirect_to people_url
+    end
   end
 end

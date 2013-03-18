@@ -5,7 +5,7 @@ describe PagesController do
         context "authenticated user" do
           it "redirects to home_path because user already logged in"  do
             bobby = Fabricate(:user)
-            session[:user_id ] = bobby.id
+            set_current_user(bobby)
             get :front
             response.should redirect_to home_path
           end

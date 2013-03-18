@@ -12,8 +12,6 @@ before_filter :require_user
       AppMailer.invitation(@invitation,invite_register_url(@invitation.token)).deliver
       flash[:notice] = "Invitation was sent"
       redirect_to videos_path
-    else
-      render :action =>new
     end
 
   end
