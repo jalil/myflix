@@ -11,4 +11,12 @@
           = f.text_field :full_name
         %fieldset.actions.control-group
           .controls
-            %input(type="submit" value="Sign Up" class="btn")
+            %input(type="submit" value="Charge and Sign Up" class="btn")
+        <script
+           src="https://checkout.stripe.com/v2/checkout.js" class="stripe-button"
+           data-key="pk_test_rl1i0X0ttomlmWe9OUIVrHPf"
+           data-amount="2000"
+           data-name="Demo Site"
+           data-description="2 widgets ($20.00)"
+           data-image="/128x128.png">
+        </script>

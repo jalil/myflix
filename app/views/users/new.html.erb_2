@@ -10,5 +10,3 @@
         <%= f.actions do %>
             <%= f.primary 'Create My Account', disable_with: 'Saving...' %>
         <% end %>
-        <% end %>
-
