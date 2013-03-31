@@ -33,10 +33,14 @@
     @line_items = @user.line_items
 	end
 
+  def destroy
+    @user = User.find(params[:id])
+    @user.destroy
+  end
   def update
 		@user = current_user
     if @user.update_attributes(params[:user])
-      AppMailer.profile_update(@user).deliver
+      AppMailer.delay.profile_update(@user)
       flash[:notice] = "Successfully updated profile"
       redirect_to videos_url
     end

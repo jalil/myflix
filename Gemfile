@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.11'
+gem 'rails', '3.2.13'
 gem 'haml-rails'
 gem 'bootstrap-sass'
 gem "binding_of_caller"
@@ -27,7 +27,7 @@ group :development do
 end
 
 group :production do
-    gem 'pg'
+   # gem 'pg'
    # gem 'thin'
 end
 group :test, :development do

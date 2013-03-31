@@ -2,8 +2,8 @@ class PasswordResetsController< ApplicationController
 
 
   def new
-    @token = params[:token]
-    redirect_to expired_token_path unless User.where(password_reset_token => @token).present?
+    @token = params[:password_reset_token]
+    redirect_to expired_token_path unless User.where(password_reset_token: @token).present?
   end
   def create
     user = User.where(password_reset_token: params[:token]).first
