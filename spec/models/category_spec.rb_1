@@ -21,7 +21,7 @@ describe Category do
 
   describe "recent videos" do
     it "should display 6 of the most recent videos in reverse order" do
-      category = Category.new(:title => "Drama")
+      category = Category.create(:title => "Drama")
 
       video1 = Video.create(name: "video 1", description: " video 1 description and shit" )
       category.videos << video1
