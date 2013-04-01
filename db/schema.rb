@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130310050108) do
+ActiveRecord::Schema.define(:version => 20130328125158) do
 
   create_table "categories", :force => true do |t|
     t.string   "title"
@@ -69,22 +69,25 @@ ActiveRecord::Schema.define(:version => 20130310050108) do
     t.string   "email"
     t.string   "full_name"
     t.string   "password_digest"
-    t.datetime "created_at",           :null => false
-    t.datetime "updated_at",           :null => false
+    t.datetime "created_at",             :null => false
+    t.datetime "updated_at",             :null => false
     t.string   "password_reset_token"
     t.integer  "invitation_id"
     t.integer  "invitation_limit"
+    t.boolean  "admin"
+    t.datetime "password_reset_sent_at"
   end
 
   create_table "videos", :force => true do |t|
     t.string   "name"
-    t.binary   "small_cvr_url"
-    t.binary   "lrg_cvr_url"
+    t.binary   "small_image"
+    t.binary   "large_image"
     t.text     "description"
     t.integer  "category_id"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
     t.string   "token"
+    t.string   "url"
   end
 
   add_index "videos", ["category_id"], :name => "index_videos_on_category_id"

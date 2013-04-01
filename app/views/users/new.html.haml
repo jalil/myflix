@@ -5,9 +5,8 @@
         %script(src="https://js.stripe.com/v1/")
         :javascript
           Stripe.setPublishableKey('pk_test_rl1i0X0ttomlmWe9OUIVrHPf');
-        = javascript_include_tag 'payments'
-
-      =bootstrap_form_for @user, html:{class: "form-horizontal"}  do |f|
+      = javascript_include_tag 'payments'
+      =bootstrap_form_for @user,  html:{class: "form-horizontal"}  do |f|
         %header
           %h1 Register
         %fieldset

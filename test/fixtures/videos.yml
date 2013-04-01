@@ -2,15 +2,16 @@
 #
 # Table name: videos
 #
-#  id            :integer          not null, primary key
-#  name          :string(255)
-#  small_cvr_url :binary
-#  lrg_cvr_url   :binary
-#  description   :text
-#  category_id   :integer
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  token         :string(255)
+#  id          :integer          not null, primary key
+#  name        :string(255)
+#  small_image :binary
+#  large_image :binary
+#  description :text
+#  category_id :integer
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  token       :string(255)
+#  url         :string(255)
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html

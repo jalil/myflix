@@ -22,7 +22,7 @@
               %td
                 = link_to list.video.name, list.video
               %td
-                = button_to "Play", nil, class: "btn"
+                = link_to "Play", list.video.url, class: "btn"
               %td
                 = select_tag "list_items[#{list.id}][rating]", options_for_select(5.downto(1).map { |n| ["#{pluralize(n, "star", "stars")}", n] }, list.rating), { include_blank: '' }
               %td

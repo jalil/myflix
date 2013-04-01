@@ -6,7 +6,12 @@ gem 'bootstrap-sass'
 gem "binding_of_caller"
 gem 'bootstrap_form'
 gem 'fabrication'
+gem 'sidekiq'
+gem 'unicorn'
 gem 'annotate', ">=2.5.0"
+gem 'stripe'
+gem 'jquery-rails'
+gem 'carrierwave'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
@@ -35,5 +40,5 @@ group :test, :development do
   gem "faker"
   gem 'bcrypt-ruby'
   gem 'shoulda-matchers'
+  gem 'capybara-email'
 end
-gem 'jquery-rails'

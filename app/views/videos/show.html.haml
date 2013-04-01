@@ -2,13 +2,14 @@
   .container
     .row
       .video_large_cover.span7.offset1
-        = image_tag("monk_large.jpg")
+        = image_tag(@video.large_image_url)
       .video_info.span3
         %h3= @video.name
         %span
         %h4 Average Ratings: #{@average_rating}
         %p= @video.description
         .actions
+          =link_to "Watch Now", @video.url, class: "btn btn-primary"
           =link_to " + My Queue", line_items_path(video_id: @video.id), method: :create, class: 'btn' unless current_user.has_a_video_in_queue?(@video)
 
 %section.reviews.container

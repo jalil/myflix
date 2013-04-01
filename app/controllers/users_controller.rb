@@ -16,16 +16,29 @@
 
 	def create
 		@user = User.create(params[:user])
-		if @user.save
-      AppMailer.welcome_email(@user).deliver
-      if @user.invitation
-        @user.friendships.create(:friend_id =>@user.invitation.sender_id)
-      end
-		  redirect_to login_path
-     else
-	  		render 'new'
-	   end
-	end
+    token = params[:stripeToken]
+    binding.pry;
+    charge = StripeWrapper::Charge.create(:amount => 999, :card => token)
+
+        if charge.successful?
+          flash[:success] = "Thank you."
+
+	      	if @user.save
+           AppMailer.delay.welcome_email(@user)
+             if @user.invitation
+                @user.friendships.create(:friend_id =>@user.invitation.sender_id)
+             end
+		        redirect_to login_path, flash: { notice: "You have successfully signed up. Please login in." }
+           else
+	  	      	render 'new'
+	         end
+        else
+          flash[:error] = charge.massage
+	  	    render 'new'
+         end
+        else
+        render 'new'
+    end
 
 	def show
 		@user = User.find(params[:id])
