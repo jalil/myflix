@@ -1,18 +1,18 @@
-class PasswordResetsController< ApplicationController
-
+class PasswordResetsController < ApplicationController
 
   def new
-    @token = params[:password_reset_token]
-    redirect_to expired_token_path unless User.where(password_reset_token: @token).present?
+    @token = params[:token]
+    redirect_to expired_token_path unless User.where(token: @token).present?
   end
+
   def create
-    user = User.where(password_reset_token: params[:token]).first
+    user = User.where(token: params[:token]).first
     if user.present?
       user.password = params[:password]
-      user.password_reset_token = nil
+      user.token = nil
       user.save(validate: false)
-      flash[:notice]= "Password has been updated"
-      redirect_to login_path
+      flash[:success] = 'Password has been reset!'
+      redirect_to sign_in_path
     else
       redirect_to expired_token_path
     end

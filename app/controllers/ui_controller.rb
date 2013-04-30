@@ -7,7 +7,4 @@ class UiController < ApplicationController
 
   def index
   end
-  def show
-    video = " My name is jalil"
-  end
 end

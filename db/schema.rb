@@ -11,85 +11,68 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130328125158) do
+ActiveRecord::Schema.define(:version => 20130430110640) do
 
   create_table "categories", :force => true do |t|
-    t.string   "title"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  create_table "friendships", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "friend_id"
+    t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
   create_table "invitations", :force => true do |t|
-    t.integer  "sender_id"
-    t.string   "token"
+    t.integer  "inviter_id"
+    t.string   "recipient_name"
     t.string   "recipient_email"
+    t.string   "token"
+    t.text     "message"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
-    t.string   "recipient_name"
-    t.text     "message"
   end
 
-  create_table "line_items", :force => true do |t|
+  create_table "queue_items", :force => true do |t|
     t.integer  "video_id"
     t.integer  "user_id"
+    t.integer  "position"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-    t.integer  "position"
   end
 
-  create_table "parties", :force => true do |t|
-    t.string   "index"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+  create_table "relationships", :force => true do |t|
+    t.integer "influencer_id"
+    t.integer "follower_id"
   end
 
   create_table "reviews", :force => true do |t|
-    t.integer  "rating"
-    t.text     "comment"
-    t.integer  "video_id"
     t.integer  "user_id"
+    t.integer  "video_id"
+    t.text     "content"
+    t.integer  "rating"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
-  create_table "todos", :force => true do |t|
-    t.string   "Party"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
+  add_index "reviews", ["user_id"], :name => "index_reviews_on_user_id"
+  add_index "reviews", ["video_id"], :name => "index_reviews_on_video_id"
 
   create_table "users", :force => true do |t|
-    t.string   "email"
     t.string   "full_name"
     t.string   "password_digest"
-    t.datetime "created_at",             :null => false
-    t.datetime "updated_at",             :null => false
-    t.string   "password_reset_token"
-    t.integer  "invitation_id"
-    t.integer  "invitation_limit"
-    t.boolean  "admin"
-    t.datetime "password_reset_sent_at"
+    t.string   "email"
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
+    t.string   "token"
+    t.boolean  "admin",           :default => false
   end
 
   create_table "videos", :force => true do |t|
-    t.string   "name"
-    t.binary   "small_image"
-    t.binary   "large_image"
+    t.string   "title"
+    t.string   "small_image"
+    t.string   "large_image"
     t.text     "description"
-    t.integer  "category_id"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
-    t.string   "token"
+    t.integer  "category_id"
     t.string   "url"
   end
-
-  add_index "videos", ["category_id"], :name => "index_videos_on_category_id"
 
 end

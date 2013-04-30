@@ -1,12 +1,15 @@
 %section.invite.container
   .row
     .span10.offset1
-      =bootstrap_form_for @invitation, html: {class: 'invite'}  do |f|
+      = form_for @invitation, class: 'invite' do |f|
         %header
-          %h1  jalil Invite a friend to join MyFlix!
+          %h1 Invite a friend to join MyFlix!
         %fieldset
-          =f.text_field :recipient_name, label: "Friend's Name"
-          =f.text_field :recipient_email, label: "Friend's Email"
-          =f.text_area :message,rows:'6', value: "Please join this awesome site!", label: "Invitation Message"
+          = f.label :recipient_name, "Friend's Name"
+          = f.text_field :recipient_name
+          = f.label :recipient_email, "Friend's Email Address"
+          = f.email_field :recipient_email
+          = f.label :message, "Invitation Message"
+          = f.text_area :message, placeholder: "Please join this really cool site!", rows: 6, class: "span4"
         %fieldset.action
           %input(type="submit" value="Send Invitation" class="btn")

@@ -1,15 +1,15 @@
 require 'spec_helper'
 
-feature "the sign in with username and password process"  do
-  background  do 
-    Fabricate(:user, email: "jalil@example.com", password:  "jalil", full_name: "Jalil Lastname")
+feature "User signs in and see their name in the home page" do
+  background do
+    Fabricate(:user, email: "joe@example.com", password: "password", full_name: "Joe Doe")
   end
 
-  scenario "logs  me in" do
-    visit login_path
-    fill_in "Email Address", :with => "jalil@example.com"
-    fill_in "Password", :with => "jalil"
-    click_button 'Sign in'
-    page.should have_content "Welcome, Jalil Lastname"
+  scenario "user signs in with valid credentials" do
+    visit sign_in_path
+    fill_in "Email Address", with: "joe@example.com"
+    fill_in "Password", with: "password"
+    click_button "Sign in"
+    page.should have_content "Welcome, Joe Doe"
   end
 end

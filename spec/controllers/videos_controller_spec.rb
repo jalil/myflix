@@ -1,38 +1,49 @@
 require 'spec_helper'
 
 describe VideosController do
-    describe 'Get #show' do
+  let(:alice) { Fabricate(:user) }
+  before { set_current_user(alice) }
 
-      let(:video) { Fabricate(:video) }
-      it "should assign the requested video to @video" do
-        bob = User.create(full_name: "bob hope", password: "bob", email:"bob@bob.com")
-        session[:user_id] = bob.id
-        get :show, id: video.id
-        assigns(:video).should == video
-      end
+  describe "GET show" do
+    let(:vid) { Fabricate(:video) }
 
-      it 'renders the :show template' do
-        video = Video.create(name:"Monk", description: "Krazy Police",
-                             small_cvr_url:"small.jpg", lrg_cvr_url: "large.jpg")
-        bob = User.create(full_name: "bob hope", password: "bob", email:"bob@bob.com")
-        session[:user_id] = bob.id
-        get :show, id: video.id
-        response.should render_template :show
-      end
+    before do
+      get :show, id: vid.id
     end
 
-  describe "POST #search " do
+    it "should set @video" do
+      assigns(:video).should == vid
+    end
 
-    let(:video) { Fabricate(:video, name: "monk is back") }
-    let(:valid_user) { Fabricate(:user)}
+    it "should render the show template" do
+      response.should render_template :show
+    end
 
+    it "set @reviews" do
+      bob = Fabricate(:user)
+      review = vid.reviews.create(rating: 3, user: bob, content: "this is a good video!")
+      assigns(:reviews).should == [review]
+    end
+
+    it_behaves_like "require_sign_in" do
+      let(:action) { get :show, id: 3 }
+    end
+  end
+
+  describe "POST search" do
     it "should set @videos" do
-        post :search, search_term: 'monk'
-        assigns(:videos).should include  (video) 
+      vid = Video.create(title: 'super bowl', description: "hha")
+      post :search, search_term: 'super'
+      assigns(:videos).should == [vid]
     end
-    it "should render search template" do
-        post :search, search_term: 'monk'
-        response.should render_template :search
+
+    it "should render the search template" do
+      post :search, search_term: 'super'
+      response.should render_template :search
+    end
+
+    it_behaves_like "require_sign_in" do
+      let(:action) { post :search, search_term: 'abc' }
     end
   end
-  end
+end

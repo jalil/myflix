@@ -1,34 +1,35 @@
+= content_for :head do
+  %script(src="https://js.stripe.com/v1/")
+  :javascript
+    Stripe.setPublishableKey('pk_test_2ga3D0G0ifKnUpI44x4d6CuP');
+  = javascript_include_tag 'payments'
+
 %section.register.container
   .row
     .span10.offset1
-      = content_for :head do
-        %script(src="https://js.stripe.com/v1/")
-        :javascript
-          Stripe.setPublishableKey('pk_test_rl1i0X0ttomlmWe9OUIVrHPf');
-      = javascript_include_tag 'payments'
-      =bootstrap_form_for @user,  html:{class: "form-horizontal"}  do |f|
+      = bootstrap_form_for @user, html: {class: "payment-form form-horizontal"} do |f|
         %header
           %h1 Register
         %fieldset
-          = f.alert_message " Please fill the below info"
-          = f.text_field :email, class: "span3"
-          = f.password_field :password, class: "span3"
-          = f.text_field :full_name, class: "span3"
+          = f.alert_message "Please check your errors."
+          = f.text_field :email
+          = f.password_field :password
+          = f.text_field :full_name
+          = hidden_field_tag :token, @token
         %fieldset.credit_card
-          %span.payments-error
           .control-group
             %label.control-label Credit Card Number
             .controls
-              %input.span3.card-number(type="text")
+              %input.span3.card_number(type="text")
           .control-group
             %label.control-label Security Code
             .controls
-              %input.span3.card-cvc(type="text")
+              %input.span3.card_cvc(type="text")
           .control-group
             %label.control-label Expiration
             .controls
-              = select_month(Date.today, {add_month_numbers: true},  class: 'span2 card-expiry-month')
-              = select_year(Date.today.year, {start_year: Date.today.year, end_year: Date.today.year + 4}, class: 'span1 card-expiry-year')
+              = select_month(Date.today, {add_month_numbers: true},  class: 'card-expiry-month span2')
+              = select_year(Date.today.year, {start_year: Date.today.year, end_year: Date.today.year + 4}, class: 'card-expiry-year span1')
         %fieldset.actions.control-group
           .controls
-            = f.secondary 'Sign up'
+            %input(type="submit" value="Sign Up" class="payment_submit btn")

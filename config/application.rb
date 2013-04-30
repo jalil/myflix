@@ -19,8 +19,6 @@ module Myflix
     config.assets.enabled = true
     config.assets.version = '1.0'
     config.generators do |g|
-      g.test_framework        :rspec, fixture: true
-      g.fixture_replacement   :fabrication
       g.orm :active_record
       g.template_engine :haml
     end

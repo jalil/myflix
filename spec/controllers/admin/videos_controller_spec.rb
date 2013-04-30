@@ -1,44 +1,68 @@
 require 'spec_helper'
 
 describe Admin::VideosController do
-  describe "GET #new" do
+  describe "GET new" do
+    context "admins" do
+      let(:alice) { Fabricate(:admin) }
+      before { set_current_user(alice) }
 
-    let(:bob) {  Fabricate(:admin)}
-     context "admins user" do
-   
-      before(:each) do 
-        set_current_user(bob) 
+      it "assigns @video as a new video" do
         get :new
+        assigns(:video).should be_new_record
+        assigns(:video).should be_instance_of(Video)
       end
 
-    it "assigns the @video to a new video" do
-      assigns(:video).should be_new_record
-      assigns(:video).should be_instance_of(Video)
+      it "renders :new template" do
+        get :new
+        response.should render_template :new
+      end
     end
 
-    it "should render the :new template" do
-     response.should render_template :new
-   end
+    context "non admin" do
+
+      it "redirects to sign in page if user is not signed in" do
+        get :new
+        response.should redirect_to sign_in_path
+      end
+
+      it "redirects to home page if user is not an admin" do
+        set_current_user(Fabricate(:user))
+        get :new
+        response.should redirect_to home_path
+      end
+    end
   end
 
-   context "non admin" do
-        let(:bob) {  Fabricate(:user)}
+  describe "POST create" do
+    context "non admin"
+    context "admins" do
 
-         before(:each) do 
-            set_current_user(bob) 
-            get :new
-          end
+      before { set_current_user(Fabricate(:admin)) }
 
-         it "should redirect to home page" do
-          pending
-       end
+      it "creates the video" do
+        drama = Fabricate(:category)
+        post :create, video: { title: "Monk", category_id: drama.id, description: "Awesome series!" }
+        monk = Video.find_by_title("Monk").should be_present
+      end
+
+      it "puts the video in the right category" do
+        drama = Fabricate(:category)
+        post :create, video: { title: "Monk", category_id: drama.id, description: "Awesome series!" }
+        monk = Video.find_by_title("Monk")
+        monk.category.should == drama
+      end
+
+      it "redirects to the admin adds video page" do
+        drama = Fabricate(:category)
+        post :create, video: { title: "Monk", category_id: drama.id, description: "Awesome series!" }
+        response.should redirect_to new_admin_video_path
+      end
+
+      it "render :new for invalid video input" do
+        drama = Fabricate(:category)
+        post :create, video: { category_id: drama.id, description: "Awesome series!" }
+        response.should render_template :new
+      end
     end
-end
-  
-  describe "GET #index" do
-       context "Admin user" do
-         it " sets the @video variable" do
-       end
-     end
   end
 end

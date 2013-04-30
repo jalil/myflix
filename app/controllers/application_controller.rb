@@ -1,21 +1,17 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  helper_method :current_user, :logged_in?
-
 
   def current_user
-    @current_user  =  User.find(session[:user_id]) if session[:user_id]
+    @current_user ||= User.find(session[:user_id]) if session[:user_id]
   end
 
-
-  def logged_in?
-  	 !!current_user 
+  def require_sign_in
+    if !current_user
+      flash[:error] = "You have to be a member to do that."
+      redirect_to sign_in_path
+    end
   end
 
-  def require_user
-  	if !logged_in?
-  		 redirect_to root_path, notice: "You must be logged in for this action"
+  helper_method :current_user
 
- 		end
-	end
 end

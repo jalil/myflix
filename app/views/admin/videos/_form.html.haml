@@ -1,0 +1,27 @@
+%section.admin_add_video
+  .container
+    .row
+      .span10.offset1
+        =bootstrap_form_for [ @video], html: {class: 'form-vertical', :multipart => true} do |f|
+          =f.alert_message "Please check your errors"
+          %ul.nav.nav-tabs
+            %li
+            %li.active
+              =link_to  "Add a New Video", new_admin_video_path
+          %fieldset
+            .control-group
+              =f.text_field :name
+            .control-group
+              =f.select :category_id, options_for_select(Category.all.map {|category| [category.title, category.id]})
+            .control-group
+              =f.text_area :description, size:"5x5"
+              .controls
+            .control-group
+              .controls
+                =f.file_field :large_image, label: "Large Cover"
+                =f.file_field :small_image, label: "Small Cover"
+                =f.text_field :url, label:  "Video Url"
+
+          %fieldset.actions.control-group
+            .controls
+              %input(type="submit" value="Add Video" class="btn")

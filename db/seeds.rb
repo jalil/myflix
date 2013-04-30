@@ -6,31 +6,30 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 
-
-Category.destroy_all
-Friendship.destroy_all
-LineItem.destroy_all
-Video.destroy_all
-Review.destroy_all
 User.destroy_all
+Category.destroy_all
+comedies = Category.create(name: "Comedies")
+sci-fi   = Category.create(name: "Sci-Fi")
+action   = Category.create(name: "Action")
+dramas   = Category.create(name: "Dramas")
 
-categories = ['comedy', 'drama', 'suspence', 'family', 'sci-fi']
-categories.each do |category| 
-	Category.create(title:category)
-end
+Video.destroy_all
+Video.create(title: "Futurama", description: "space travel!", small_cover_url: "/tmp/futurama.jpg", category: comedies, large_cover_url: '/tmp/monk_large.jpg')
+Video.create(title: "Monk", description: "Paranoid SF detective", small_cover_url: "/tmp/monk.jpg", category: dramas, large_cover_url: '/tmp/monk_large.jpg')
+Video.create(title: "Family Guy", description: "Peter Griffin and talking dog", small_cover_url: "/tmp/family_guy.jpg", category: comedies, large_cover_url: '/tmp/monk_large.jpg')
+south_park = Video.create(title: "South Park", description: "Hippie kids", small_cover_url: "/tmp/south_park.jpg", category: comedies, large_cover_url: '/tmp/monk_large.jpg')
 
-User.create(email: "bob@example.com", full_name: "Bob Hope", password: "bob", admin: true)
-User.create(email: "sam@example.com", full_name: "Sammy Hill", password: "sam")
-User.create(email: "adam@example.com", full_name: "Adam Jones", password: "adam")
-User.create(email: "dick@example.com", full_name: "Dick Hope", password: "dick")
-User.create(email: "jalil@example.com", full_name: "Jalil Mohammed", password: "jalil")
-User.create(email: "may@example.com", full_name: "May Kosaka", password: "may")
+User.destroy_all
+jalil = Fabricate(:user, full_name: "Jalil Mohammed")
+bob = User.create(full_name: "bob Hope", email: "bob@example.com",admin: 1, password: "password")
 
+Review.destroy_all
+south_park.reviews.create(rating: 3, content: "horrible", user: jalil)
+south_park.reviews.create(rating: 4, content: "horrible", user: bob)
 
+QueueItem.destroy_all
+QueueItem.create(video: south_park, user: bob, position: 1)
 
+Relationship.destroy_all
+Relationship.create(influencer: jalil, follower: bob)
 
-
-Friendship.create(user_id:1, friend_id:2)
-Friendship.create(user_id:1, friend_id:3)
-Friendship.create(user_id:1, friend_id:4)
-Friendship.create(user_id:1, friend_id:5)

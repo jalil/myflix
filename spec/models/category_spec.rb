@@ -3,43 +3,41 @@
 # Table name: categories
 #
 #  id         :integer          not null, primary key
-#  title      :string(255)
+#  name       :string(255)
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
 
-require "spec_helper"
+require 'spec_helper'
 
 describe Category do
-  describe "association" do
-    it {should have_many(:videos)}
+  it { should have_many(:videos) }
+
+  describe "recent_videos" do
+    it "returns an empty array where no videos in category" do
+      comedies = Category.create(name: "comedies")
+      comedies.recent_videos.should == []
+    end
+
+    it "returns one video in category" do
+      comedies = Category.create(name: "comedies")
+      south_park = comedies.videos.create(title: "South Park", description: "soemting")
+      comedies.recent_videos.should == [south_park]
+    end
+
+    it "returns multiple videos in category in reverse chronically order" do
+      comedies = Category.create(name: "comedies")
+      futurama = comedies.videos.create(title: "Futurama", created_at: 1.day.ago, description: "soemting")
+      south_park = comedies.videos.create(title: "South Park", description: "soemting")
+      comedies.recent_videos.should == [south_park, futurama]
+    end
+
+    it "returns up to 6 videos when there are more in category" do
+      comedies = Category.create(name: "comedies")
+      family_guy = comedies.videos.create(title: "Family Guy", description: "Hey ya")
+      10.times { comedies.videos.create(title: "somehting", description: "some description", created_at: 1.day.ago) }
+      comedies.recent_videos.count.should == 6
+      comedies.recent_videos.first.should == family_guy
+    end
   end
-
-  describe "validation of model" do
-    it { should validate_presence_of(:title)}
-  end
-
-  describe "recent videos" do
-    it "should display 6 of the most recent videos in reverse order" do
-      category = Category.new(:title => "Drama")
-
-      video1 = Video.create(name: "video 1", description: " video 1 description and shit" )
-      category.videos << video1
-      video2 = Video.create(name: "video 2", description: " video 2 description and shit" )
-      category.videos << video2
-      video3 = Video.create(name: "video 3", description: " video 3 description and shit" )
-      category.videos << video3
-      video4 = Video.create(name: "video 4", description: " video 4 description and shit" )
-      category.videos << video4
-      video5 = Video.create(name: "video 5", description: " video 5 description and shit" )
-      category.videos << video5
-      video6 = Video.create(name: "video 6", description: " video 6 description and shit" )
-      category.videos << video6
-      video7 = Video.create(name: "video 7", description: " video 7 description and shit" )
-      category.videos << video7
-      category.save
-      category.recent_videos.first.should == [video6]
-      end
-   end
 end
-

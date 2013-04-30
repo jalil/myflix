@@ -2,64 +2,68 @@
 #
 # Table name: users
 #
-#  id                     :integer          not null, primary key
-#  email                  :string(255)
-#  full_name              :string(255)
-#  password_digest        :string(255)
-#  created_at             :datetime         not null
-#  updated_at             :datetime         not null
-#  password_reset_token   :string(255)
-#  invitation_id          :integer
-#  invitation_limit       :integer
-#  admin                  :boolean
-#  password_reset_sent_at :datetime
+#  id              :integer          not null, primary key
+#  full_name       :string(255)
+#  password_digest :string(255)
+#  email           :string(255)
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  token           :string(255)
+#  admin           :boolean          default(FALSE)
 #
 
 require 'spec_helper'
 
 describe User do
+  let(:video) { Fabricate(:video) }
+  let(:user) { Fabricate(:user) }
 
-  describe "validations for User" do
-    it { should validate_presence_of(:full_name)}
-    it { should validate_presence_of(:email)}
-    it { should validate_uniqueness_of(:email)}
-    it { should validate_presence_of(:password)}
-  end
+  subject { user }
 
-  describe "#has_a_video_in_queue?" do
-    let(:video) {Fabricate(:video)}
-    let(:user)  {Fabricate(:video)}
-    
-  
-    subject {user}
-
+  describe "#has_video_in_queue?" do
     context "video in queue" do
-      before { user.line_items.create(video_id: video.id) }
-      it { should has_a_video_in_queue?(video) }
+      before { user.queue_items.create(video: video) }
+      it { should have_video_in_queue(video) }
+    end
+
+    context "no video in queue" do
+      it { should_not have_video_in_queue(video) }
     end
   end
 
-      it { should respond_to(:videos) }    
-      it { should respond_to(:reviews) }    
-      it { should respond_to(:friendships) }    
-      it { should respond_to(:inverse_friendships) }    
-      it { should respond_to(:inverse_friends) }    
-      it { should respond_to(:line_items) }    
+  describe "#videos_in_queue" do
+    context "no videos in queue" do
+      its(:videos_in_queue) { should == [] }
+    end
+    context "with videos in queue" do
+      before { user.queue_items.create(video: video) }
+      its(:videos_in_queue) { should == [video] }
+    end
+  end
 
+  describe "#follow" do
+    let(:alice) { Fabricate(:user) }
+    let(:bob) { Fabricate(:user) }
 
-      describe "#follow" do
-        let(:bob) { Fabricate(:user)}
-        let(:hope) { Fabricate(:user)}
-        
-        it "follws someone" do
-          Friendship.create(user_id: bob.id, friend_id: hope.id)
-          bob.friendships.count.should == 1
-        end
+    it "follows someone" do
+      alice.follow(bob)
+      alice.following_relationships.count.should == 1
+    end
 
-        it "does not follow oneself" do
-          Friendship.create(user_id: bob.id, friend_id: bob.id)
-          bob.friends(bob)
-          bob.friendships.count.should == 0
-        end
-      end
+    it "does not follow oneself" do
+      alice.follow(alice)
+      Relationship.count.should == 0
+    end
+
+    it "does not create duplicate relationships" do
+      Fabricate(:relationship, influencer: bob, follower: alice)
+      alice.follow(bob)
+      Relationship.count.should == 1
+    end
+  end
+
+  it_behaves_like "tokenable" do
+    let(:object) { User.create(full_name: "John Doe", password: "1234", email: "john@example.com") }
+  end
+
 end

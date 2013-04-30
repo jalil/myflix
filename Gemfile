@@ -1,17 +1,16 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.13'
+gem 'rails', '3.2.11'
 gem 'haml-rails'
 gem 'bootstrap-sass'
-gem "binding_of_caller"
 gem 'bootstrap_form'
-gem 'fabrication'
+gem 'bcrypt-ruby'
+gem 'draper'
 gem 'sidekiq'
-gem 'unicorn'
-gem 'annotate', ">=2.5.0"
 gem 'stripe'
-gem 'jquery-rails'
+gem 'unicorn'
 gem 'carrierwave'
+gem 'annotate'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
@@ -20,25 +19,29 @@ group :assets do
 end
 
 group :development do
-  gem "better_errors"
-  gem 'bcrypt-ruby'
+  gem 'better_errors'
+  gem 'binding_of_caller'
   gem 'sqlite3'
   gem 'pry'
   gem 'pry-nav'
-  gem 'capybara'
   gem 'letter_opener'
-  gem 'rb-fsevent'
-  gem 'guard-rspec'
 end
 
 group :production do
-   # gem 'pg'
-   # gem 'thin'
+  gem 'pg'
 end
+
+gem 'jquery-rails'
+
 group :test, :development do
-  gem "rspec-rails", "~> 2.0"
-  gem "faker"
-  gem 'bcrypt-ruby'
+  gem 'rspec-rails'
   gem 'shoulda-matchers'
+  gem 'fabrication'
+  gem 'faker'
+end
+
+group :test do
+  gem 'capybara'
+  gem 'launchy'
   gem 'capybara-email'
 end

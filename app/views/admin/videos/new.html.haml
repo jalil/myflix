@@ -10,9 +10,9 @@
               =link_to  "Add a New Video", new_admin_video_path
           %fieldset
             .control-group
-              =f.text_field :name
+              =f.text_field :title
             .control-group
-              =f.select :category_id, options_for_select(Category.all.map {|category| [category.title, category.id]})
+              =f.select :category_id, options_for_select(Category.all.map {|category| [category.name, category.id]})
             .control-group
               =f.text_area :description, size:"5x5"
               .controls

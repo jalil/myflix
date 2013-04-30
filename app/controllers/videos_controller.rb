@@ -1,22 +1,16 @@
-class VideosController < ApplicationController
-   before_filter :require_user
-  def index
-	    @categories = Category.all
-  end
+class VideosController < AuthenticatedController
 
-  def new
-    @video = Video.new
+  def index
+    @categories = Category.all
   end
 
   def show
-    	#@video = Video.find_by_token(params[:id])
-    	@video = Video.find(params[:id])
-      @reviews = @video.reviews
-      @review = Review.new
-      @average_rating = @reviews.average(:rating).to_f.round(1)
+    @video = VideoDecorator.decorate(Video.find(params[:id]))
+    @reviews = @video.reviews
+    @review = Review.new
   end
 
   def search
-      @videos = Video.search_by_title(params[:search_term])
+    @videos = Video.search_by_title(params[:search_term])
   end
 end

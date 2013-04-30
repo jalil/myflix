@@ -1,10 +1,9 @@
-%article.video-category
-  %header
-    - @categories.each do |category|
-      %h2= category.title
-      .videos.row
-        - category.recent_videos.each do |video|
-          .video.span2
-            =link_to (image_tag video.small_image), video
-
-
+- @categories.each do |category|
+  %article.video_category
+    %header
+      %h3= link_to category.name
+    .videos.row
+      - category.videos.each do |video|
+        .video.span2
+          = link_to video do
+            %img(src="#{video.small_image}")

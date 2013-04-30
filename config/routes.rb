@@ -1,50 +1,41 @@
 Myflix::Application.routes.draw do
-
-  get 'register', :to =>"users#new"
-  get 'signup/:invitation_token', :to =>"users#new", as: 'invite_register'
-
-  get 'login', :to =>"sessions#new"
-  post 'login', :to => 'sessions#create'
-  get 'logout', :to => 'sessions#destroy'
-
-  get "videos/index"
-  get 'home',  :to=> "videos#index"
-  get 'my_queue',  :to=> "line_items#index"
-  get 'people',  :to=> "friendships#index"
-  post 'update_line',  to:  "line_items#update_line"
-
-
   get 'ui(/:action)', controller: 'ui'
-  #root page
-  root :to => "pages#front"
+  get 'home', to: 'videos#index'
 
-  resources :pages
-  resources :payments
-  resources :line_items, only: [:create, :destroy]
-  resources :reviews, only: [:create]
-  resources :users
-  resources :friendships, only: [:create] 
-
-  get 'password_reset', to: 'password_reset#index'
-  post 'password_reset', to: 'password_reset#create', as: 'create_password_reset'
-  get 'password_reset/:token', to: 'password_reset#edit', as: 'edit_password_reset'
-  put 'password_reset/:token', to: 'password_reset#update', as: 'update_password_reset'
-
-
-  get 'update_account', to: 'users#update'
-
-  resources :invitations, only:[:create, :new]
-
-  namespace :admin do
-    resources :videos, only:[:create,:index,:edit, :new]
-  end
-
-  resources :videos do
-    resources :reviews
-  end
   resources :videos, only: [:show] do
     collection do
-       post "search", to: "videos#search"
+      post "search", to: "videos#search"
     end
+    resources :reviews, only: [:create]
   end
- end
+
+  namespace :admin do
+    resources :videos, only: [:new, :create]
+  end
+
+  resources :users, only: [:create, :show]
+  get 'register', to: "users#new"
+  get 'register/:token', to: 'users#new_with_invitation', as: 'register_with_token'
+
+  resources :sessions, only: [:create]
+  get 'sign_in', to: "sessions#new"
+  get 'sign_out', to: "sessions#destroy"
+
+  get 'my_queue', to: "queue_items#index"
+  post 'update_queue', to: "queue_items#update_queue"
+  resources "queue_items", only: [:create, :destroy]
+
+  get 'people', to: 'relationships#index'
+  resources :relationships, only: [:destroy, :create]
+
+  get 'forgot_password', to: "forgot_passwords#new"
+  resources :forgot_passwords, only: [:create]
+
+  get 'reset_password_confirmation', to: 'forgot_passwords#confirm'
+  get 'expired_token', to: 'password_resets#expired_token'
+  get 'password_reset/:token', to: 'password_resets#new', as: 'new_password_reset'
+  resources :password_resets, only: [:create, :update]
+  resources :invitations, only: [:new, :create]
+
+  root to: 'pages#front'
+end

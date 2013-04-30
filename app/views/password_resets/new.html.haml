@@ -7,8 +7,6 @@
         %fieldset
           = label_tag :password, "New Password"
           = password_field_tag :password
-          = label_tag :password_confirmation, "Password Confirmation"
-          = password_field_tag :password_confirmation
           = hidden_field_tag :token, @token
         %fieldset.action
           %input(type="submit" value="Reset Password" class="btn")
