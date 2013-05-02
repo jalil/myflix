@@ -10,7 +10,7 @@ Myflix::Application.routes.draw do
   get "videos/index"
   get 'home',  :to=> "videos#index"
   get 'my_queue',  :to=> "line_items#index"
-  get 'people',  :to=> "friendships#index"
+  get 'people',  :to=> "relationships#index"
   post 'update_line',  to:  "line_items#update_line"
 
 

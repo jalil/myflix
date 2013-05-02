@@ -20,11 +20,10 @@ class User < ActiveRecord::Base
   has_many :reviews, :dependent => :destroy
   has_many :videos
   has_many :line_items, order: "position ASC"
+
   #following
-  has_many :friendships
-  has_many :friends, :through => :friendships
-  has_many :inverse_friendships, :class_name => "Friendship", :foreign_key => "friend_id"
-  has_many :inverse_friends, :through => :inverse_friendships, :source => :user
+  has_many :following_relationships, class_name: "Relationship", foreign_key: 'follower_id'
+  has_many :influencing_relationships, class_name: "Relationship", foreign_key: 'influencer_id'
 
   #invitations
   belongs_to :invitation

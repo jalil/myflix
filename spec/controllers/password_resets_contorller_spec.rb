@@ -20,3 +20,4 @@ describe PasswordResetsController do
   end
   end
 end
+end

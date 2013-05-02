@@ -11,17 +11,10 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130328125158) do
+ActiveRecord::Schema.define(:version => 20130502093612) do
 
   create_table "categories", :force => true do |t|
     t.string   "title"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  create_table "friendships", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "friend_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -44,10 +37,20 @@ ActiveRecord::Schema.define(:version => 20130328125158) do
     t.integer  "position"
   end
 
-  create_table "parties", :force => true do |t|
-    t.string   "index"
+  create_table "lines", :force => true do |t|
+    t.integer  "user_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "video_id"
+  end
+
+  add_index "lines", ["user_id"], :name => "index_lines_on_user_id"
+
+  create_table "relationships", :force => true do |t|
+    t.integer  "influencer_id"
+    t.integer  "follower_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
   create_table "reviews", :force => true do |t|
@@ -55,12 +58,6 @@ ActiveRecord::Schema.define(:version => 20130328125158) do
     t.text     "comment"
     t.integer  "video_id"
     t.integer  "user_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  create_table "todos", :force => true do |t|
-    t.string   "Party"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end

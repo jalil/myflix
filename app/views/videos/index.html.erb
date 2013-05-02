@@ -1,7 +1,7 @@
 <%@categories.each do |category| %>
       <h1> <%=link_to category.title %> </h1>
 	        <%category.videos.each do |video| %>
-          <%=link_to (image_tag video.small_cvr_url), video %>
+          <%=link_to (image_tag video.small_image), video %>
     <% end %>
  <% end %>
 
