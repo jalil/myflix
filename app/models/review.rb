@@ -1,5 +1,5 @@
-# == Schema Information
 #
+# == Schema Information
 # Table name: reviews
 #
 #  id         :integer          not null, primary key

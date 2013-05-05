@@ -12,6 +12,7 @@ gem 'annotate', ">=2.5.0"
 gem 'stripe'
 gem 'jquery-rails'
 gem 'carrierwave'
+gem 'draper'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'

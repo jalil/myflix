@@ -1,83 +1,121 @@
 require 'spec_helper'
 
 describe LineItemsController do
-  
-  describe 'GET #index' do
-    let(:bob) { Fabricate(:user)}
-    before { set_current_user(bob) }
-      it 'assigns @queue_items' do
-        item1 =  Fabricate(:line_item)
-        item2 =  Fabricate(:line_item)
-        bob.line_items << item1
-        bob.line_items << item2
-        get :index
-        bob.line_items.should include(item1)
-        bob.line_items.should include(item2)
-      end
+  describe "GET index" do
+    let(:video) { Fabricate(:video) }
+    let(:user) { Fabricate(:user) }
 
-        it_behaves_like "render_template" do
-          let(:action) { get :index }
-          let(:template) {:index}
-        end
+    before(:each) do
+      set_current_user(user)
+      get :index
+    end
 
-        it_behaves_like "require_sign_in" do
-          let(:action) { get :index}
-        end
-        end
+    it "should set the @line_item variable" do
+      line_item = LineItem.create(user_id: session[:user_id], video_id: video.id)
+      assigns(:line_items).should == [line_item]
+    end
 
-  describe "POST create" do 
-    let(:bob) { Fabricate(:user)}
-    before { set_current_user(bob) }
-    it "create a queue item" do
+    it "should render the index template" do
+      response.should render_template :index
+    end
+
+    let(:user1) { Fabricate(:user) }
+    let(:user2) { Fabricate(:user) }
+    let(:video1) { Fabricate(:video) }
+    let(:line_item1) { Fabricate(:line_item, user: user1, video: video1) }
+    let(:line_item2) { Fabricate(:line_item, user: user2, video: video1) }
+
+    it "should only show line items for current user" do
+      LineItem.find_all_by_user_id(session[:user_id]).should_not include(line_item2)
+    end
+  end
+
+  describe "POST create" do
+    it "should add movie to line" do
+      user = Fabricate(:user)
       video = Fabricate(:video)
-      post :create, video_id: video.id
-      bob.line_items.map(&:video).should == [video]
+      session[:user_id] = user.id
+      line_item = LineItem.create(user_id: user.id, video_id: video.id)
+      post :create, { video_id: 1, user_id: 1 }
+      LineItem.all.count.should == 2
     end
-
-    it "redirects to my queue page" do
-      video = Fabricate(:video)
-      post :create, video_id: video.id
-      response.should redirect_to my_queue_path
-    end
-
-    it_behaves_like "require_sign_in" do
-      let(:action) { post :create , video_id: 4}
-    end
-   end
+  end
 
   describe "DELETE destroy" do
-    context "authorized user " do
-      let(:bob) { Fabricate(:user)}
-      before { set_current_user(bob) }
-      
-      let(:item1) { Fabricate(:line_item, user:bob) }
-      let(:item2) { Fabricate(:line_item, user:bob) }
+    context "when user is logged in" do
 
-      before { delete :destroy, id: item1.id }
+      let(:user) { Fabricate(:user) }
+      let(:line_item) { Fabricate(:line_item, user_id: user.id) }
 
-      it "delete users queue items" do
-        bob.line_items.should == [item2]
+      before(:each) do
+        set_current_user(user)
+        delete :destroy, id: line_item.id
       end
 
-      its "redirect_to my queue page" do
-        response.should redirect_to my_queue_path
+      it "should not have the line item" do
+        LineItem.all.should_not include(line_item)
+      end
+
+      it "should redirect to my_line_path" do
+        response.should redirect_to my_line_path
       end
     end
 
-    context "unauthorized user" do 
-      let(:bob) { Fabricate(:user)}
-      let(:mike) { Fabricate(:user)}
-      before { set_current_user(bob) }
-      let(:item) { Fabricate(:line_item, user: bob) }
-      it "does not delete the items" do 
-        delete :destroy,  id: item.id
-        mike.line_items.count.should == 0
-      end
+    context "when user is not logged in" do
+      let(:user) { Fabricate(:user) }
 
-      it_behaves_like "require_sign_in" do
-        let(:action) { delete :destroy, id:3}
+      it "should redirect user to login" do
+        video = Fabricate(:video)
+        line_item = LineItem.create(user_id: user.id, video_id: video.id)
+        delete :destroy, { id: line_item.id }
+        response.should redirect_to login_path
       end
     end
   end
-end
 
+  describe "POST #update_line" do
+    let(:user) { Fabricate(:user) }
+    let(:line_item1) { Fabricate(:line_item, user: current_user, position: 1) }
+    let(:line_item2) { Fabricate(:line_item, user: current_user, position: 2) }
+    let(:line_item3) { Fabricate(:line_item, user: current_user, position: 3) }
+
+    before(:each) do
+      set_current_user(user)
+    end
+
+    it "sorts line items by position" do
+      post :update_line, line_items: { line_item1.id => { position: 3 }, line_item2.id => { position: 1 }, line_item3.id => { position: 2 } }
+
+      current_user.line_items.reload.should == [line_item2, line_item3, line_item1]
+      current_user.line_items.reload.map(&:position).should == [1, 2, 3]
+    end
+
+    it "sorts line items by position with decimals" do
+      post :update_line, line_items: { line_item1.id => { position: 1.5 }, line_item2.id => { position: 1 }, line_item3.id => { position: 2 } }
+
+      current_user.line_items.reload.should == [line_item2, line_item1, line_item3]
+      current_user.line_items.reload.map(&:position).should == [1, 2, 3]
+    end
+
+    it "redirects to my_line" do
+      post :update_line, line_items: { line_item1.id => { position: 1.5 }, line_item2.id => { position: 1 }, line_item3.id => { position: 2 } }
+      response.should redirect_to my_line_path
+    end
+
+    it "updates existing video rating" do
+      video = Fabricate(:video)
+      review = Fabricate(:review, video: video, user: current_user)
+      post :update, line_items: { line_item1.id => { position: 1, rating: 1 } }
+
+      current_user.line_items.reload.first.video.reviews.where(user_id: current_user.id).first.rating.should == 1
+    end
+
+    it "creates new review with rating when rating does not exist" do
+      video = Fabricate(:video)
+      post :update_line, line_items: { line_item1.id => { position: 1, rating: 2 } }
+
+      Review.where(user_id: current_user.id).count.should == 1
+      Review.where(user_id: current_user.id).first.rating.should == 2
+    end
+  end
+end

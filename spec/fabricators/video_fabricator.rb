@@ -16,8 +16,12 @@
 
 Fabricator(:video) do
   name Faker::Name.first_name
-  category_id 1
+  category 
+  small_image "small_image.jpg"
+  large_image "large_image.jpg"
   description Faker::Lorem.sentence(1)
-  small_image "/assets/images/monk.jpg"
-  large_image "/assets/images/monk_lrg.jpg"
+end
+
+Fabricator(:video_created_at_yesterday, from: :video) do
+  created_at {1.day.ago }
 end

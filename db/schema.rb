@@ -46,6 +46,12 @@ ActiveRecord::Schema.define(:version => 20130502093612) do
 
   add_index "lines", ["user_id"], :name => "index_lines_on_user_id"
 
+  create_table "parties", :force => true do |t|
+    t.string   "index"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "relationships", :force => true do |t|
     t.integer  "influencer_id"
     t.integer  "follower_id"
@@ -58,6 +64,12 @@ ActiveRecord::Schema.define(:version => 20130502093612) do
     t.text     "comment"
     t.integer  "video_id"
     t.integer  "user_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "todos", :force => true do |t|
+    t.string   "Party"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end

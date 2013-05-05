@@ -73,6 +73,10 @@ GEM
     connection_pool (1.0.0)
     debug_inspector (0.0.2)
     diff-lcs (1.2.1)
+    draper (1.2.0)
+      actionpack (>= 3.0)
+      activesupport (>= 3.0)
+      request_store (~> 1.0.3)
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
@@ -159,6 +163,7 @@ GEM
     redis (3.0.3)
     redis-namespace (1.2.1)
       redis (~> 3.0.0)
+    request_store (1.0.5)
     rest-client (1.6.7)
       mime-types (>= 1.16)
     rspec (2.13.0)
@@ -239,6 +244,7 @@ DEPENDENCIES
   capybara-email
   carrierwave
   coffee-rails (~> 3.2.1)
+  draper
   fabrication
   faker
   guard-rspec

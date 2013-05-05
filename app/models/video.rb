@@ -30,7 +30,7 @@ class Video < ActiveRecord::Base
 
   before_create :generate_token
   #validations
-  validates :name, :small_image, :large_image, :description,  :presence =>true
+#  validates :name, :small_image, :large_image, :description,  :presence =>true
 
   def self.search_by_title(search_term)
 	  if search_term.blank?
