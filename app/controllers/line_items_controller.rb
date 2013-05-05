@@ -9,7 +9,7 @@ class LineItemsController < ApplicationController
     line_item = LineItem.new
   end
   def create
-    queue_item = LineItem.create(user_id: session[:user_id], video_id: params[:video_id], position: current_user.queue_items.count + 1)
+    queue_item = LineItem.create(user_id: session[:user_id], video_id: params[:video_id], position: current_user.line_items.count + 1)
     if queue_item.save
       redirect_to my_queue_path
     else
@@ -18,7 +18,7 @@ class LineItemsController < ApplicationController
   end
 
   def destroy
-    list_item = current_user.queue_items.find(params[:id])
+    list_item = current_user.line_items.find(params[:id])
     list_item.destroy
     flash[:error] = "Video has been removed from your queue"
 

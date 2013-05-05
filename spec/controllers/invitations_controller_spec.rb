@@ -20,9 +20,58 @@ describe InvitationsController do
 
 
   describe "POST #create" do
-
+    context "invitation is saved" do
+      before(:each) do
+         post :create, invitation: { token: "qwerty1234", recipient_name: "Jack Example", recipient_email: "jack@example.me", message: "Check out this site!" }              
+      end
+      after do
+        ActionMailer::Base.deliveries.clear
+      end
     it "should create the invitation" do
-      pending
+     Invitation.last.recipient_name.should == "Jack Example"
+     Invitation.last.recipient_email.should == "jack@example.me"
+     Invitation.last.message.should == "Check out this site!"
+     Invitation.last.sender.should == user
+    end
+    it "should have a token" do
+      Invitation.last.token.should_not be_nil
+    end
+    
+    it "redirects user to new_invitation_path" do
+        response.should redirect_to videos_path
+    end
+   end
+
+    context "sending mail" do
+      before(:each) do
+         post :create, invitation: { token: "qwerty1234", recipient_name: "Jack Example", recipient_email: "jack@example.me", message: "Check out this site!" }              
+      end
+
+      after do
+         ActionMailer::Base.deliveries.clear
+      end
+      it "sends out the email" do
+        ActionMailer::Base.deliveries.should_not be_empty
+      end
+
+       it "sends the email to the right recipient" do
+         ActionMailer::Base.deliveries.last == ['jack@example.me']
+       end
+       end
+
+    context "invitation is not saved" do
+      before(:each) do
+        post :create, invitation: { recipient_name: "", recipient_email: "", message: "" }
+     end
+
+      it "does not create the invitation" do
+          Invitation.all.count.should == 0
+     end
+
+      it "renders the createtemplate" do
+        response.should render_template :create
+      end
     end
     end
-  end
+    end
+    

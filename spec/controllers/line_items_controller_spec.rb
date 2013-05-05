@@ -45,7 +45,7 @@ describe LineItemsController do
     context "when user is logged in" do
 
       let(:user) { Fabricate(:user) }
-      let(:line_item) { Fabricate(:line_item, user_id: user.id) }
+      let(:line_item) { Fabricate(:line_item, user: user) }
 
       before(:each) do
         set_current_user(user)
@@ -56,8 +56,8 @@ describe LineItemsController do
         LineItem.all.should_not include(line_item)
       end
 
-      it "should redirect to my_line_path" do
-        response.should redirect_to my_line_path
+      it "should redirect to my_queue_path" do
+        response.should redirect_to videos_path
       end
     end
 
@@ -99,13 +99,13 @@ describe LineItemsController do
 
     it "redirects to my_line" do
       post :update_line, line_items: { line_item1.id => { position: 1.5 }, line_item2.id => { position: 1 }, line_item3.id => { position: 2 } }
-      response.should redirect_to my_line_path
+      response.should redirect_to my_queue_path
     end
 
     it "updates existing video rating" do
       video = Fabricate(:video)
       review = Fabricate(:review, video: video, user: current_user)
-      post :update, line_items: { line_item1.id => { position: 1, rating: 1 } }
+      post :update_line, line_items: { line_item1.id => { position: 1, rating: 1 } }
 
       current_user.line_items.reload.first.video.reviews.where(user_id: current_user.id).first.rating.should == 1
     end

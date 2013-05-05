@@ -11,6 +11,7 @@
 #
 
 Fabricator(:line_item) do
+  position {1}
   video
   user
 end
