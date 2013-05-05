@@ -18,10 +18,10 @@
            flash[:error] = "You have succefully signed up. Please sign in" 
            AppMailer.welcome_email(@user).deliver
            handle_invitation(invitation) if invitation
-		       redirect_to login_path
+	     redirect_to login_path
          else
-           flash[:error] = response.error_massage
-	  	     render 'new'
+            flash[:error] = response.error_massage
+	    render 'new'
          end
       else
         render 'new'
@@ -46,10 +46,11 @@
 	end
 
   def update
-		@user = current_user
+    @user = current_user
     if @user.update_attributes(params[:user])
       AppMailer.delay.profile_update(@user)
       flash[:notice] = "Successfully updated profile"
+
       redirect_to videos_url
     end
   end

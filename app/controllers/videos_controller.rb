@@ -10,10 +10,11 @@ class VideosController < ApplicationController
 
   def show
     	#@video = Video.find_by_token(params[:id])
-    	@video = Video.find(params[:id])
+    	@video = Video.find(params[:id]).decorate
       @reviews = @video.reviews
       @review = Review.new
-      @average_rating = @reviews.average(:rating).to_f.round(1)
+      #
+      #average_rating = @reviews.average(:rating).to_f.round(1)
   end
 
   def search

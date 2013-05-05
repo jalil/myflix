@@ -1,4 +1,4 @@
-class InvitationsController < AuthenticatedController
+class InvitationsController < ApplicationController
 
   before_filter :require_user
 
@@ -7,12 +7,15 @@ class InvitationsController < AuthenticatedController
   end
 
   def create
-    @invitation = Invitation.new(params[:invitation].merge(sender:current_user)
+    @invitation = Invitation.new(params[:invitation])
+    @invitation.sender = current_user
+
     if @invitation.save
-      AppMailer.delay.invitation(@invitation,invite_register_url(@invitation.token))
-      redirect_to new_invitation_path
-    else
-      render :new
+      AppMailer.invitation(@invitation,invite_register_url(@invitation.token)).deliver
+      flash[:notice] = "Invitation was sent"
+      redirect_to videos_path
     end
+
   end
 end
+
