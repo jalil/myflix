@@ -1,5 +1,8 @@
 Myflix::Application.routes.draw do
 
+require 'sidekiq/web'
+mount Sidekiq::web => '/sidekiq'
+
   get 'register', :to =>"users#new"
   get 'signup/:invitation_token', :to =>"users#new", as: 'invite_register'
 
@@ -24,6 +27,7 @@ Myflix::Application.routes.draw do
   resources :reviews, only: [:create]
   resources :users
   resources :friendships, only: [:create] 
+  resources :relationships
 
   get 'password_reset', to: 'password_reset#index'
   post 'password_reset', to: 'password_reset#create', as: 'create_password_reset'

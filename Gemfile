@@ -12,6 +12,10 @@ gem 'annotate', ">=2.5.0"
 gem 'stripe'
 gem 'jquery-rails'
 gem 'carrierwave'
+gem 'sinatra'
+gem 'slim'
+gem 'sprockets'
+gem 'resque'
 gem 'draper'
 
 group :assets do
