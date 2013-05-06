@@ -1,7 +1,6 @@
-Myflix::Application.routes.draw do
-
 require 'sidekiq/web'
-mount Sidekiq::web => '/sidekiq'
+Myflix::Application.routes.draw do
+  mount Sidekiq::Web => '/sidekiq'
 
   get 'register', :to =>"users#new"
   get 'signup/:invitation_token', :to =>"users#new", as: 'invite_register'
