@@ -38,13 +38,5 @@ describe ReviewsController do
         response.should render_template :show
       end
     end
-
-    context "unauthorized users" do
-      it "should not create a review" do
-        video = Fabricate(:video)
-        post :create, review: { rating: 2, comment: " so so rating"}, video_id: video.id
-        video.reviews.count == 0
-      end
-    end
   end
 end
