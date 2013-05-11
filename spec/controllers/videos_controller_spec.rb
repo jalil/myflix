@@ -38,8 +38,5 @@ describe VideosController do
           response.should render_template :search
         end
 
-       it_behaves_like "require_sign_in" do
-         let(:action) { post :search, search_term: 'abc' }
        end
      end
-end

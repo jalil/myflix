@@ -22,14 +22,14 @@ describe InvitationsController do
   describe "POST #create" do
     context "invitation is saved" do
       before(:each) do
-         post :create, invitation: { token: "qwerty1234", recipient_name: "Jack Example", recipient_email: "jack@example.me", message: "Check out this site!" }              
+         post :create, invitation: { token: "qwerty1234", recipient_name: "jalil Example", recipient_email: "jalil@example.me", message: "Check out this site!" }              
       end
       after do
         ActionMailer::Base.deliveries.clear
       end
     it "should create the invitation" do
-     Invitation.last.recipient_name.should == "Jack Example"
-     Invitation.last.recipient_email.should == "jack@example.me"
+     Invitation.last.recipient_name.should == "Jalil Example"
+     Invitation.last.recipient_email.should == "jalil@example.me"
      Invitation.last.message.should == "Check out this site!"
      Invitation.last.sender.should == user
     end
@@ -44,7 +44,7 @@ describe InvitationsController do
 
     context "sending mail" do
       before(:each) do
-         post :create, invitation: { token: "qwerty1234", recipient_name: "Jack Example", recipient_email: "jack@example.me", message: "Check out this site!" }              
+         post :create, invitation: { token: "qwerty1234", recipient_name: "jalil Example", recipient_email: "jalil@example.me", message: "Check out this site!" }              
       end
 
       after do
@@ -55,14 +55,14 @@ describe InvitationsController do
       end
 
        it "sends the email to the right recipient" do
-         ActionMailer::Base.deliveries.last == ['jack@example.me']
+         ActionMailer::Base.deliveries.last == ['jalil@example.me']
        end
        end
 
     context "invitation is not saved" do
       before(:each) do
         post :create, invitation: { recipient_name: "", recipient_email: "", message: "" }
-     end
+      end
 
       it "does not create the invitation" do
           Invitation.all.count.should == 0
@@ -72,6 +72,6 @@ describe InvitationsController do
         response.should render_template :create
       end
     end
-    end
-    end
+  end
+end
     

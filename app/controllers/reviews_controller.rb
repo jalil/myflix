@@ -1,4 +1,4 @@
-class ReviewsController < AuthenticatedController
+class ReviewsController < ApplicationController
 
   def create
      video = Video.find(params[:video_id])

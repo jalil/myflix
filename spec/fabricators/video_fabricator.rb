@@ -19,6 +19,7 @@ Fabricator(:video) do
   category 
   small_image "small_image.jpg"
   large_image "large_image.jpg"
+  token "23455667"
   description Faker::Lorem.sentence(1)
 end
 

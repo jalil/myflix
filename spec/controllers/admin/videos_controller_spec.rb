@@ -41,4 +41,14 @@ end
        end
      end
   end
+
+  describe "POST #create" do
+
+    context "with valid attributes" do
+        video=Video.new(:name => "Title", :description => "Description", small_image: "Small", large_image: "Large", category_id: 1)
+      it "saves the new video in the database" do
+        expect{video.save }.to change(Video.count).by(1)
+      end
+    end
+  end
 end

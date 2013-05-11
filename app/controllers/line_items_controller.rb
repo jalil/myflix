@@ -1,5 +1,5 @@
 class LineItemsController < ApplicationController
-  before_filter :require_user
+
 
   def index
     @line_items = current_user.line_items.order('position ASC')

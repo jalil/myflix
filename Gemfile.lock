@@ -279,8 +279,8 @@ DEPENDENCIES
   sass-rails (~> 3.2.3)
   shoulda-matchers
   sidekiq
-  sinatra
-  slim
+  sinatra (>= 1.3.0)
+  slim (>= 1.3.0)
   sprockets
   sqlite3
   stripe

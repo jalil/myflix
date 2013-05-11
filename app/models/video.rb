@@ -21,7 +21,7 @@ class Video < ActiveRecord::Base
   belongs_to :user
   has_many :line_items, :order => "position ASC"
   has_many :reviews, :order=> "created_at DESC"
-
+  validates :name, :description, :presence => true
   attr_accessible :url, :category_id, :description, :large_image, :name, :small_image
 
   #carreierwave

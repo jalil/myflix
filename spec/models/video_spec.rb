@@ -28,8 +28,8 @@ describe Video do
 
   context  "search results for video" do
     before :each  do
-      @video_1 =  Fabricate(:video, name: "curb your mom")
-      @video_2 =  Fabricate(:video, name: "curb your daddy")
+      @video_1 =  Fabricate(:video, name: "curb your mom", description:" A very sunny show")
+      @video_2 =  Fabricate(:video, name: "curb your daddy", description:" A very sunny show")
     end
 
     it  "should return an empty array if search title result is not there" do

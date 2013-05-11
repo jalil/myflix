@@ -16,6 +16,6 @@ shared_examples "require_sign_in" do
   it "redirects to sign in page" do
     session[:user_id] = nil
     action
-    response.should be_redirect
+    response.should redirect
   end
 end

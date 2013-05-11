@@ -12,8 +12,8 @@ gem 'annotate', ">=2.5.0"
 gem 'stripe'
 gem 'jquery-rails'
 gem 'carrierwave'
-gem 'sinatra'
-gem 'slim'
+gem 'sinatra',">=1.3.0"
+gem 'slim', ">=1.3.0"
 gem 'sprockets'
 gem 'resque'
 gem 'draper'

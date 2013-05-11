@@ -9,11 +9,12 @@
 #
 
 class Category < ActiveRecord::Base
-  attr_accessible :title, :created_at
+  attr_accessible :title
+  attr_accessible :created_at
   validates :title, presence:true
-  has_many :videos
+  has_many :videos, order: "created_at ASC"
 
 	def recent_videos
-		videos.order("created_at  DESC").limit(6)
+		videos.first(6)
 	end
 end
