@@ -1,10 +1,9 @@
 jQuery(function($) {
-  $('#new_user').submit(function(event) {
+  $('.payment-form').submit(function(event) {
     var $form = $(this);
 
-    $form.find('.btn').prop('disabled', true);
+    $form.find('.payment_submit').prop('disabled', true);
 
-    Stripe.createToken($form, stripeResponseHandler);
 
     Stripe.createToken({
           number: $('.card-number').val(),
@@ -16,11 +15,11 @@ jQuery(function($) {
   });
 
 var stripeResponseHandler = function(status, response) {
-  var $form = $('#new_user');
+  var $form = $('.payment-form');
 
   if (response.error) {
     $form.find('.payment-errors').text(response.error.message);
-    $form.find('.btn').prop('disabled', false);
+    $form.find('.payment_submit').prop('disabled', false);
   } else {
     var token = response.id;
     $form.append($('<input type="hidden" name="stripeToken" />').val(token));

@@ -1,9 +1,7 @@
 class AdminController < ApplicationController
+  before_filter :require_admin
 
   def require_admin
-      if !current_user.admin
-        flash[:error] = "You do not have access to that area."
-        redirect_to home_path
-      end
+    redirect_to home_path, flash: { error: "You do not have access to that area." } unless current_user.admin?
   end
 end

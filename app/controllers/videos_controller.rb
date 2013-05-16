@@ -10,8 +10,8 @@ class VideosController < ApplicationController
 
   def show
     	#@video = Video.find_by_token(params[:id])
-    	@video = Video.find(params[:id])
-    	#@video = Video.find(params[:id]).decorate
+    	#@video = Video.find(params[:id])
+    	@video = Video.find(params[:id]).decorate
       @reviews = @video.reviews
       @review = Review.new
       #

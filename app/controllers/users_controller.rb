@@ -4,28 +4,17 @@
     @user = User.new
 	end
 
+	def show
+		@user = User.find(params[:id])
+    @reviews = @user.reviews
+    @line_items = @user.line_items
+	end
+
 	def create
-		@user = User.create(params[:user])
-    token = params[:stripeToken]
-
-    if @user.valid?
-      response = StripeWrapper::Charge.create(:amount => 999, :card => token, description: @user.email)
-
-        if response.successful?
-           @user.save
-           flash[:success] = "Thank you."
-           flash[:error] = "You have succefully signed up. Please sign in" 
-           AppMailer.welcome_email(@user).deliver
-           handle_invitation(invitation) if invitation
-	     redirect_to login_path
-         else
-            flash[:error] = response.error_massage
-	    render 'new'
-         end
-      else
-        render 'new'
-      end
-    end
+		@user, stripe_token, invitation_token = User.new(params[:user]), params[:stripeToken], params[:token]
+    result = UserSignUp.new(@user).sign_up(stripe_token, invitation_token)
+    handle_registration_result(result)
+  end
 
   def new_with_invitation
     invitation = Invitation.where(token: params[:token]).first
@@ -37,12 +26,6 @@
       redirect_to expired_token_path
     end
   end
-
-	def show
-		@user = User.find(params[:id])
-    @reviews = @user.reviews
-    @line_items = @user.line_items
-	end
 
   def update
     @user = current_user
@@ -56,9 +39,16 @@
 
   private 
 
-  def handle_invitation(invitation)
-    @user.follow(invitation.sender)
-    invitation.sender.follow(@user)
-    invitation.update_attribute(:token, nil)
+  def handle_registration_result(result)
+    if result.invalid_user?
+      binding.pry;
+      render :new
+    elsif  result.successful?
+      flash[:success] = "You have successfully signed in up. Please sign in."
+      redirect_to login_path
+    else
+      flash[:error] = result.strip_error_message
+      render :new
+   end
   end
 end

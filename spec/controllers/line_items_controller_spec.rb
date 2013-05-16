@@ -60,17 +60,6 @@ describe LineItemsController do
         response.should redirect_to videos_path
       end
     end
-
-    context "when user is not logged in" do
-      let(:user) { Fabricate(:user) }
-
-      it "should redirect user to login" do
-        video = Fabricate(:video)
-        line_item = LineItem.create(user_id: user.id, video_id: video.id)
-        delete :destroy, { id: line_item.id }
-        response.should redirect_to login_path
-      end
-    end
   end
 
   describe "POST #update_line" do

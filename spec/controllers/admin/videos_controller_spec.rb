@@ -4,7 +4,7 @@ describe Admin::VideosController do
   describe "GET #new" do
 
     let(:bob) {  Fabricate(:admin)}
-     context "admins user" do
+     context "admin user" do
    
       before(:each) do 
         set_current_user(bob) 
@@ -22,33 +22,28 @@ describe Admin::VideosController do
   end
 
    context "non admin" do
-        let(:bob) {  Fabricate(:user)}
 
          before(:each) do 
             set_current_user(bob) 
             get :new
           end
 
-         it "should redirect to home page" do
-          pending
+       it "should redirect to home page" do
+         get :new
+         response.should render_template :new
        end
     end
 end
-  
-  describe "GET #index" do
-       context "Admin user" do
-         it " sets the @video variable" do
-       end
-     end
-  end
 
-  describe "POST #create" do
+  describe "Post #create" do
+    context "admins" do
+      before { set_current_user( Fabricate(:admin)) } 
 
-    context "with valid attributes" do
-        video=Video.new(:name => "Title", :description => "Description", small_image: "Small", large_image: "Large", category_id: 1)
-      it "saves the new video in the database" do
-        expect{video.save }.to change(Video.count).by(1)
+      it "creates the video" do
+        drama = Fabricate(:category)
+        post :create, video: {name: "Monk", category_id: drama.id, description: "Awesome series!" }
+        monk = Video.find_by_name("Monk").should be_present
       end
     end
   end
-end
+  end

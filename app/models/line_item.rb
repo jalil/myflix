@@ -16,6 +16,10 @@ class LineItem < ActiveRecord::Base
   belongs_to :video
   belongs_to :user
 
+  def user_rating
+    review = video.reviews.where(user_id: user.id).first
+    review.blank? ? '' : review.rating.to_i
+  end
 
   def self.update_fields(queue_items)
     unless queue_items.blank?
@@ -30,12 +34,6 @@ class LineItem < ActiveRecord::Base
        end
       end
   end
-
-
-def user_rating
-  review = video.reviews.where(user_id: user.id).first
-  review.blank? ? '' : review.rating.to_i
-end
 
 
  private

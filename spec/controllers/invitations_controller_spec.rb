@@ -28,7 +28,7 @@ describe InvitationsController do
         ActionMailer::Base.deliveries.clear
       end
     it "should create the invitation" do
-     Invitation.last.recipient_name.should == "Jalil Example"
+     Invitation.last.recipient_name.should == "jalil Example"
      Invitation.last.recipient_email.should == "jalil@example.me"
      Invitation.last.message.should == "Check out this site!"
      Invitation.last.sender.should == user
